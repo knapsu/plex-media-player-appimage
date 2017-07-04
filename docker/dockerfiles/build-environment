@@ -1,0 +1,69 @@
+FROM ubuntu:xenial
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+ADD assets/dpkg_nodoc /etc/dpkg/dpkg.cfg.d/90_nodoc
+ADD assets/dpkg_nolocale /etc/dpkg/dpkg.cfg.d/90_nolocale
+ADD assets/apt_nocache /etc/apt/apt.conf.d/90_nocache
+ADD assets/apt_mindeps /etc/apt/apt.conf.d/90_mindeps
+
+# Add package repositories
+RUN set -e \
+  && apt-get update \
+  && apt-get install -y software-properties-common \
+  && add-apt-repository -y ppa:beineri/opt-qt59-xenial \
+  && add-apt-repository -y ppa:git-core/ppa \
+  && add-apt-repository -y ppa:pulse-eight/libcec \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /tmp/* /var/tmp/* /var/log/*
+
+# Install development tools and libraries
+RUN set -e \
+  && apt-get update \
+  && apt-get install -y \
+    nano \
+    wget \
+    curl \
+    autoconf \
+    automake \
+    libtool \
+    libharfbuzz-dev \
+    libfreetype6-dev \
+    libfontconfig1-dev \
+    libx11-dev \
+    libxrandr-dev \
+    libvdpau-dev \
+    libva-dev \
+    mesa-common-dev \
+    libegl1-mesa-dev \
+    yasm \
+    libasound2-dev \
+    libpulse-dev \
+    libuchardet-dev \
+    zlib1g-dev \
+    libfribidi-dev \
+    git \
+    libgnutls-dev \
+    libgl1-mesa-dev \
+    libsdl2-dev \
+    cmake \
+    build-essential \
+    qt59base \
+    qt59quickcontrols \
+    qt59tools \
+    qt59translations \
+    qt59webchannel \
+    qt59webengine \
+    qt59x11extras \
+    python3-pip \
+    python3-setuptools \
+    libcec4-dev \
+    fuse \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /tmp/* /var/tmp/* /var/log/*
+
+# Setup Conan package manager
+RUN set -e \
+  && pip3 install -U pip \
+  && pip3 install -U conan \
+  && conan remote add plex https://conan.plex.tv
