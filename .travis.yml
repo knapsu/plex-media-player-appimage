@@ -6,9 +6,10 @@ services:
 branches:
   only:
     - master
+    - /v\d+\.\d+.*/
 
 env:
-  - ARCH=x86_64 DOCKER_IMAGE=knapsu/plexmediaplayer-build:latest
+  - DOCKER_IMAGE=knapsu/plexmediaplayer-build:latest
 
 before_script:
   - docker pull ${DOCKER_IMAGE}

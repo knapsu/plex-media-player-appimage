@@ -75,8 +75,10 @@ else
   cd plex-media-player
 fi
 
-# if on travis and release tag detected, build from this tag
-# TODO
+# If building from tag use a specific version of Plex Media Player sources
+if [ -z "$TRAVIS_TAG" ]; then
+  git checkout $TRAVIS_TAG
+fi
 COMMIT_HASH=$(git log -n 1 --pretty=format:'%h')
 
 rm -rf build 
