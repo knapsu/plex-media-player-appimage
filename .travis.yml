@@ -1,0 +1,22 @@
+language: cpp
+
+services:
+  - docker
+
+branches:
+  only:
+    - master
+
+env:
+  - ARCH=x86_64 DOCKER_IMAGE=knapsu/plexmediaplayer-build:latest
+
+before_script:
+  - docker pull ${DOCKER_IMAGE}
+  - docker run -t -d --volume ${TRAVIS_BUILD_DIR}:/plex -w /plex --name builder --device /dev/fuse --privileged ${DOCKER_IMAGE}
+
+script:
+  - docker exec -t builder ./scripts/build.sh
+  - sha1sum *.AppImage
+
+after_script:
+  - docker stop builder
