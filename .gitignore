@@ -1,0 +1,5 @@
+.directory
+appimage/
+*.AppImage
+plex-media-player/
+mpv-build/
