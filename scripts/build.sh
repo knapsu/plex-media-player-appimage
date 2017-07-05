@@ -2,14 +2,11 @@
 set -e
 
 SCRIPT=$(readlink -f "$0")
-SCRIPTDIR=$(dirname "$SCRIPT")
+SCRIPTDIR=$(dirname "${SCRIPT}")
 WORKDIR=${PWD}
 
-APP="Plex Media Player"
-LOWERAPP="plexmediaplayer"
-
 # Load helper functions
-source "$SCRIPTDIR/functions.sh"
+source "${SCRIPTDIR}/functions.sh"
 
 # Initialize Qt environment
 set +e
@@ -17,7 +14,9 @@ source "/opt/qt59/bin/qt59-env.sh"
 set -e
 
 # Define build variables
-CURRENT_DATE=$(date -u +'%Y%m%d')
+APP="Plex Media Player"
+LOWERAPP="plexmediaplayer"
+DATE=$(date -u +'%Y%m%d')
 
 case "$(uname -i)" in
   x86_64|amd64)
@@ -35,15 +34,15 @@ echo "System architecture: ${SYSTEM_ARCHX}"
 case "${ARCH:-$(uname -i)}" in
   x86_64|amd64)
     TARGET_ARCH="x86_64"
-    TARGET_ARCHX="x86-64";;
+    PLATFORM="x86-64";;
   i?86)
     TARGET_ARCH="i686"
-    TARGET_ARCHX="x86";;
+    PLATFORM="x86";;
   *)
     echo "Unsupported target architecture"
     exit 1;;
 esac
-echo "Target architecture: ${TARGET_ARCHX}"
+echo "Target architecture: ${PLATFORM}"
 
 # Build mpv player
 cd "${WORKDIR}"
@@ -76,10 +75,13 @@ else
 fi
 
 # If building from tag use a specific version of Plex Media Player sources
-if [ -z "$TRAVIS_TAG" ]; then
-  git checkout $TRAVIS_TAG
+if [ -n "${TRAVIS_TAG}" ]; then
+  git checkout ${TRAVIS_TAG}
 fi
-COMMIT_HASH=$(git log -n 1 --pretty=format:'%h')
+COMMIT_HASH=$(git log -n 1 --pretty=format:'%h' --abbrev=8)
+
+# Set package version string to tag name or if not present to current date with commit hash
+VERSION="${TRAVIS_TAG:-${DATE}_${COMMIT_HASH}}"
 
 rm -rf build 
 mkdir -p build
@@ -115,10 +117,15 @@ get_desktopintegration ${LOWERAPP}
 cd "${OLDPWD}"
 
 # Create AppImage bundle
-APPIMAGE_FILE_NAME="Plex_Media_Player_${CURRENT_DATE}_${COMMIT_HASH}_${TARGET_ARCHX}.AppImage"
-echo "AppImage file name: ${APPIMAGE_FILE_NAME}"
 cd "${WORKDIR}/appimage"
+if [[ "${VERSION}" =~ ^v[0-9]+\.[0-9]+ ]]; then
+  VERSION=${VERSION:1}
+fi
+APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
+echo "${APPIMAGE_FILE_NAME}"
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -bundle-non-qt-libs
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -qmldir="../plex-media-player/src/ui" -appimage
 mv *.AppImage "${WORKDIR}/${APPIMAGE_FILE_NAME}"
-ls -l --time-style=long-iso *.AppImage | cut -d" " -f5-
+
+cd "${WORKDIR}"
+sha1sum *.AppImage

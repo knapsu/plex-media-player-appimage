@@ -17,7 +17,6 @@ before_script:
 
 script:
   - docker exec -t builder ./scripts/build.sh
-  - sha1sum *.AppImage
 
 after_script:
   - docker stop builder
