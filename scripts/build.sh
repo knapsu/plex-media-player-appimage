@@ -124,8 +124,6 @@ fi
 APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
 echo "${APPIMAGE_FILE_NAME}"
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -bundle-non-qt-libs
+./linuxdeployqt "${APPDIR}/usr/bin/pmphelper" -bundle-non-qt-libs
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -qmldir="../plex-media-player/src/ui" -appimage
 mv *.AppImage "${WORKDIR}/${APPIMAGE_FILE_NAME}"
-
-cd "${WORKDIR}"
-sha1sum *.AppImage

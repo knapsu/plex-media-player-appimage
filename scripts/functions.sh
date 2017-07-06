@@ -278,10 +278,17 @@ patch_strings_in_file() {
     fi
 }
 
+download_appimagetool()
+{
+  OUTPUT_DIR=${1:-.}
+  URL="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-${SYSTEM_ARCH}.AppImage"
+  wget -c "$URL" -O "${OUTPUT_DIR}/appimagetool"
+  chmod a+x "${OUTPUT_DIR}/appimagetool"
+}
+
 download_linuxdeployqt()
 {
   OUTPUT_DIR=${1:-.}
-  # Download linuxdeployqt
   URL="https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-${SYSTEM_ARCH}.AppImage"
   wget -c "$URL" -O "${OUTPUT_DIR}/linuxdeployqt"
   chmod a+x "${OUTPUT_DIR}/linuxdeployqt"
