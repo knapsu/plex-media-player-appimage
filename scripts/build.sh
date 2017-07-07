@@ -117,12 +117,11 @@ get_desktopintegration ${LOWERAPP}
 cd "${OLDPWD}"
 
 # Create AppImage bundle
-cd "${WORKDIR}/appimage"
 if [[ "${VERSION}" =~ ^v[0-9]+\.[0-9]+ ]]; then
   VERSION=${VERSION:1}
 fi
 APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
-echo "${APPIMAGE_FILE_NAME}"
+cd "${WORKDIR}/appimage"
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -bundle-non-qt-libs
 ./linuxdeployqt "${APPDIR}/usr/bin/pmphelper" -bundle-non-qt-libs
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -qmldir="../plex-media-player/src/ui" -appimage

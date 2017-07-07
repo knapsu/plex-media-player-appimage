@@ -3,7 +3,7 @@
 ## Introduction
 This repository automates building AppImage packages for Plex Media Player application. 
 
-Packages for x86-64 (64-bit Intel/AMD) architecture are generated daily by Travis CI build system.
+Packages for x86-64 (64-bit Intel/AMD) architecture are generated daily by Travis CI build system and can be downloaded from https://knapsu.eu/plex/.
 
 ## Plex Media Player
 Plex is a client-server software that makes it easy to watch different kinds of digital media on all kinds of devices, including living room TV, computer, tablet and even phone.
