@@ -44,7 +44,7 @@ case "${ARCH:-$(uname -i)}" in
 esac
 echo "Target architecture: ${PLATFORM}"
 
-# Build mpv player
+# Checkout mpv player
 cd "${WORKDIR}"
 if [ -d mpv-build ]; then
   cd mpv-build
@@ -56,13 +56,7 @@ else
   cd mpv-build
 fi
 
-echo "--prefix=/usr" > mpv_options
-echo "--enable-libmpv-shared" >> mpv_options
-echo "--disable-cplayer" >> mpv_options
-./rebuild
-./install
-
-# Build Plex Media Player
+# Checkout Plex Media Player
 cd "${WORKDIR}"
 if [ -d plex-media-player ]; then
   cd plex-media-player
@@ -102,6 +96,16 @@ fi
 # In all other situations use current date and commit hash as package version number
 VERSION="${TRAVIS_TAG:-${DATE}_${COMMIT_HASH}}"
 
+# Build mpv player
+cd "${WORKDIR}/mpv-build"
+echo "--prefix=/usr" > mpv_options
+echo "--enable-libmpv-shared" >> mpv_options
+echo "--disable-cplayer" >> mpv_options
+./rebuild
+./install
+
+# Build Plex Media Player
+cd "${WORKDIR}/plex-media-player"
 rm -rf build 
 mkdir -p build
 cd build
