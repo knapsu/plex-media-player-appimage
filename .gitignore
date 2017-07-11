@@ -4,3 +4,4 @@ mpv-build/
 appimage/
 *.AppImage
 commit-hash
+keys/id_rsa
