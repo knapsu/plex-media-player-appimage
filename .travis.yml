@@ -17,8 +17,10 @@ before_script:
 
 script:
   - docker exec -t builder ./scripts/build.sh
-  - sha1sum *.AppImage
-  - curl --upload-file *.AppImage https://transfer.sh/
 
 after_script:
   - docker stop builder
+
+cache:
+  directories:
+  - commit-hash

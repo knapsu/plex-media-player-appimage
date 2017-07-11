@@ -21,15 +21,15 @@ DATE=$(date -u +'%Y%m%d')
 case "$(uname -i)" in
   x86_64|amd64)
     SYSTEM_ARCH="x86_64"
-    SYSTEM_ARCHX="x86-64";;
+    SYSTEM_PLATFORM="x86-64";;
   i?86)
     SYSTEM_ARCH="i686"
-    SYSTEM_ARCHX="x86";;
+    SYSTEM_PLATFORM="x86";;
   *)
     echo "Unsupported system architecture"
     exit 1;;
 esac
-echo "System architecture: ${SYSTEM_ARCHX}"
+echo "System architecture: ${SYSTEM_PLATFORM}"
 
 case "${ARCH:-$(uname -i)}" in
   x86_64|amd64)
@@ -48,7 +48,7 @@ echo "Target architecture: ${PLATFORM}"
 cd "${WORKDIR}"
 if [ -d mpv-build ]; then
   cd mpv-build
-  git clean -xf
+  git clean -xdf
   git checkout master
   git pull
 else
@@ -66,7 +66,7 @@ echo "--disable-cplayer" >> mpv_options
 cd "${WORKDIR}"
 if [ -d plex-media-player ]; then
   cd plex-media-player
-  git clean -xf
+  git clean -xdf
   git checkout master
   git pull
 else
@@ -80,7 +80,26 @@ if [ -n "${TRAVIS_TAG}" ]; then
 fi
 COMMIT_HASH=$(git log -n 1 --pretty=format:'%h' --abbrev=8)
 
-# Set package version string to tag name or if not present to current date with commit hash
+# Check if source code was modified from latest scheduled build.
+if [[ "${TRAVIS_EVENT_TYPE}" == "cron" ]]; then
+  echo "Scheduled build. Checking if source code was modified from last build."
+
+  if [ -f "${WORKDIR}/commit-hash" ]; then
+    PREVIOUS_HASH=$(cat "${WORKDIR}/commit-hash")
+  fi
+  echo "Previous source hash: ${PREVIOUS_HASH:-unknown}"
+
+  CURRENT_HASH=$(git log -n 1 --pretty=format:'%H')
+  echo "Current source hash: ${CURRENT_HASH}"
+
+  if [ "${PREVIOUS_HASH}" == "${CURRENT_HASH}" ]; then
+    echo "Source code not modified. Aborting."
+    exit
+  fi
+fi
+
+# When building from tag use it as package version number
+# In all other situations use current date and commit hash as package version number
 VERSION="${TRAVIS_TAG:-${DATE}_${COMMIT_HASH}}"
 
 rm -rf build 
@@ -126,3 +145,11 @@ cd "${WORKDIR}/appimage"
 ./linuxdeployqt "${APPDIR}/usr/bin/pmphelper" -bundle-non-qt-libs
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -qmldir="../plex-media-player/src/ui" -appimage
 mv *.AppImage "${WORKDIR}/${APPIMAGE_FILE_NAME}"
+
+cd "${WORKDIR}"
+sha1sum *.AppImage
+
+# Remember last source code version used by sheduled build
+if [[ "${TRAVIS_EVENT_TYPE}" == "cron" ]]; then
+  echo -n "${CURRENT_HASH}" > "${WORKDIR}/commit-hash"
+fi
