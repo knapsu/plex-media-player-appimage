@@ -16,7 +16,9 @@ before_script:
   - docker run -t -d --volume ${TRAVIS_BUILD_DIR}:/plex -w /plex --name builder --device /dev/fuse --privileged ${DOCKER_IMAGE}
 
 script:
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - docker exec -t builder ./scripts/build.sh
+  - ./scripts/upload.sh --scp
 
 after_script:
   - docker stop builder
