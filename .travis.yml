@@ -25,4 +25,4 @@ after_script:
 
 cache:
   directories:
-  - commit-hash
+  - cache

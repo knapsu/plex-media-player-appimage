@@ -3,5 +3,5 @@ plex-media-player/
 mpv-build/
 appimage/
 *.AppImage
-commit-hash
+cache/
 keys/id_rsa

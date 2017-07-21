@@ -74,12 +74,13 @@ if [ -n "${TRAVIS_TAG}" ]; then
 fi
 COMMIT_HASH=$(git log -n 1 --pretty=format:'%h' --abbrev=8)
 
-# Check if source code was modified from latest scheduled build.
+# Check if source code was modified since last scheduled build.
 if [[ "${TRAVIS_EVENT_TYPE}" == "cron" ]]; then
-  echo "Scheduled build. Checking if source code was modified from last build."
+  echo "Scheduled build"
+  echo "Checking if source code was modified since last build"
 
-  if [ -f "${WORKDIR}/commit-hash" ]; then
-    PREVIOUS_HASH=$(cat "${WORKDIR}/commit-hash")
+  if [ -f "${WORKDIR}/cache/commit-hash" ]; then
+    PREVIOUS_HASH=$(cat "${WORKDIR}/cache/commit-hash")
   fi
   echo "Previous source hash: ${PREVIOUS_HASH:-unknown}"
 
@@ -87,9 +88,11 @@ if [[ "${TRAVIS_EVENT_TYPE}" == "cron" ]]; then
   echo "Current source hash: ${CURRENT_HASH}"
 
   if [ "${PREVIOUS_HASH}" == "${CURRENT_HASH}" ]; then
-    echo "Source code not modified. Aborting."
+    echo "Source code not modified"
     exit
   fi
+else
+  echo "Standard build"
 fi
 
 # When building from tag use it as package version number
@@ -155,5 +158,6 @@ sha1sum *.AppImage
 
 # Remember last source code version used by sheduled build
 if [[ "${TRAVIS_EVENT_TYPE}" == "cron" ]]; then
-  echo -n "${CURRENT_HASH}" > "${WORKDIR}/commit-hash"
+  mkdir -p "${WORKDIR}/cache"
+  echo -n "${CURRENT_HASH}" > "${WORKDIR}/cache/commit-hash"
 fi
