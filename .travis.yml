@@ -13,10 +13,11 @@ env:
 
 before_script:
   - docker pull ${DOCKER_IMAGE}
-  - docker run -t -d --volume ${TRAVIS_BUILD_DIR}:/plex -w /plex --name builder --device /dev/fuse --privileged ${DOCKER_IMAGE}
+  - env | grep -E "^TRAVIS_" > travis.env
+  - docker run -t -d --volume ${TRAVIS_BUILD_DIR}:/plex -w /plex --env-file travis.env --name builder --device /dev/fuse --privileged ${DOCKER_IMAGE}
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 script:
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - docker exec -t builder ./scripts/build.sh
   - ./scripts/upload.sh --scp
 
