@@ -13,6 +13,8 @@ set +e
 source "/opt/qt59/bin/qt59-env.sh"
 set -e
 
+git config --global advice.detachedHead false
+
 # Define build variables
 APP="Plex Media Player"
 LOWERAPP="plexmediaplayer"
@@ -46,7 +48,7 @@ echo "Target architecture: ${PLATFORM}"
 
 # Checkout mpv player
 cd "${WORKDIR}"
-if [ -d mpv-build ]; then
+if [[ -d mpv-build ]]; then
   cd mpv-build
   git clean -xdf
   git checkout master
@@ -58,7 +60,7 @@ fi
 
 # Checkout Plex Media Player
 cd "${WORKDIR}"
-if [ -d plex-media-player ]; then
+if [[ -d plex-media-player ]]; then
   cd plex-media-player
   git clean -xdf
   git checkout master
@@ -69,17 +71,17 @@ else
 fi
 
 # If building from tag use a specific version of Plex Media Player sources
-if [ -n "${TRAVIS_TAG}" ]; then
-  git checkout ${TRAVIS_TAG}
+if [[ -n "${PLEX_TAG}" ]]; then
+  echo "Checkout from tag"
+  git checkout ${PLEX_TAG}
 fi
 COMMIT_HASH=$(git log -n 1 --pretty=format:'%h' --abbrev=8)
 
-# Check if source code was modified since last scheduled build.
 if [[ "${TRAVIS_EVENT_TYPE}" == "cron" ]]; then
   echo "Scheduled build"
   echo "Checking if source code was modified since last build"
 
-  if [ -f "${WORKDIR}/cache/commit-hash" ]; then
+  if [[ -f "${WORKDIR}/cache/commit-hash" ]]; then
     PREVIOUS_HASH=$(cat "${WORKDIR}/cache/commit-hash")
   fi
   echo "Previous source hash: ${PREVIOUS_HASH:-unknown}"
@@ -87,17 +89,27 @@ if [[ "${TRAVIS_EVENT_TYPE}" == "cron" ]]; then
   CURRENT_HASH=$(git log -n 1 --pretty=format:'%H')
   echo "Current source hash: ${CURRENT_HASH}"
 
-  if [ "${PREVIOUS_HASH}" == "${CURRENT_HASH}" ]; then
+  if [[ "${PREVIOUS_HASH}" == "${CURRENT_HASH}" ]]; then
     echo "Source code not modified"
     exit
   fi
+elif [[ "${TRAVIS_EVENT_TYPE}" == "api" ]]; then
+  echo "Triggered build"
 else
   echo "Standard build"
 fi
 
-# When building from tag use it as package version number
-# In all other situations use current date and commit hash as package version number
-VERSION="${TRAVIS_TAG:-${DATE}_${COMMIT_HASH}}"
+# Define package version string
+# When building from tag use number from its name
+# In all other situations use current date and commit hash
+if [[ -n "${PLEX_TAG}" ]]; then
+  VERSION="${PLEX_TAG}"
+  if [[ "${VERSION}" =~ ^v[0-9]+ ]]; then
+    VERSION=${VERSION:1}
+  fi
+else
+  VERSION="${DATE}_${COMMIT_HASH}"
+fi
 
 # Build mpv player
 cd "${WORKDIR}/mpv-build"
@@ -143,9 +155,6 @@ get_desktopintegration ${LOWERAPP}
 cd "${OLDPWD}"
 
 # Create AppImage bundle
-if [[ "${VERSION}" =~ ^v[0-9]+\.[0-9]+ ]]; then
-  VERSION=${VERSION:1}
-fi
 APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
 cd "${WORKDIR}/appimage"
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -bundle-non-qt-libs
@@ -156,8 +165,8 @@ mv *.AppImage "${WORKDIR}/${APPIMAGE_FILE_NAME}"
 cd "${WORKDIR}"
 sha1sum *.AppImage
 
-# Remember last source code version used by sheduled build
-if [[ "${TRAVIS_EVENT_TYPE}" == "cron" ]]; then
+# Remember last source code version used by scheduled build
+if [[ "${TRAVIS}" == "true" ]]; then
   mkdir -p "${WORKDIR}/cache"
   echo -n "${CURRENT_HASH}" > "${WORKDIR}/cache/commit-hash"
 fi

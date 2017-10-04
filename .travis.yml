@@ -6,7 +6,6 @@ services:
 branches:
   only:
     - master
-    - /v\d+\.\d+.*/
 
 env:
   - DOCKER_IMAGE=knapsu/plexmediaplayer-build:latest
