@@ -53,7 +53,7 @@ if [ -n "${CHECK_DATE}" ]; then
         -H "Accept: application/json" \
         -H "Travis-API-Version: 3" \
         -H "Authorization: token ${TRAVIS_API_TOKEN}" \
-        -d "{ \"request\": { \"branch\": \"master\", \"config\": { \"merge_mode\": \"deep_merge\", \"env\": { \"PLEX_TAG\": \"${RELEASE}\" } } } } " \
+        -d "{ \"request\": { \"branch\": \"master\", \"config\": { \"env\": { \"PLEX_TAG\": \"${RELEASE}\", \"DOCKER_IMAGE\": \"${DOCKER_IMAGE}\" } } } } " \
         -o response.json \
         https://api.travis-ci.org/repo/knapsu%2Fplex-media-player-appimage/requests
       if [[ $? -ne 0 ]]; then
@@ -62,7 +62,7 @@ if [ -n "${CHECK_DATE}" ]; then
       fi
       rm -f response.json
     done
-    if [[ -n "TRAVIS_ERROR" ]]; then
+    if [[ -n "${TRAVIS_ERROR}" ]]; then
       exit 3
     fi
     set -e

@@ -13,11 +13,11 @@ env:
 
 before_script:
   - docker pull ${DOCKER_IMAGE}
-  - env | grep -E "^TRAVIS" > travis.env
+  - env | grep -E "^TRAVIS|^DOCKER" > travis.env
   - docker run -t -d --volume ${TRAVIS_BUILD_DIR}:/plex -w /plex --env-file travis.env --name builder --device /dev/fuse --privileged ${DOCKER_IMAGE}
 
 script:
-  - docker exec -t builder ./scripts/check.sh -d "2017-09-27T00:00:00Z"
+  - docker exec -t builder ./scripts/check.sh
 
 after_script:
   - docker stop builder
