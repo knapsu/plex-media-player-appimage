@@ -6,19 +6,18 @@ services:
 branches:
   only:
     - master
+    - check
 
 env:
   - DOCKER_IMAGE=knapsu/plexmediaplayer-build:latest
 
 before_script:
   - docker pull ${DOCKER_IMAGE}
-  - env | grep -E "^TRAVIS_" > travis.env
+  - env | grep -E "^TRAVIS" > travis.env
   - docker run -t -d --volume ${TRAVIS_BUILD_DIR}:/plex -w /plex --env-file travis.env --name builder --device /dev/fuse --privileged ${DOCKER_IMAGE}
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 script:
-  - docker exec -t builder ./scripts/build.sh
-  - ./scripts/upload.sh --scp
+  - docker exec -t builder ./scripts/check.sh
 
 after_script:
   - docker stop builder
