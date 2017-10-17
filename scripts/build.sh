@@ -134,6 +134,7 @@ make install DESTDIR=install
 cd "${WORKDIR}"
 mkdir -p "appimage"
 cd "appimage"
+download_appimagetool
 download_linuxdeployqt
 
 # Initialize AppDir
@@ -148,7 +149,6 @@ ln -s "../share/plexmediaplayer/web-client" "${APPDIR}/usr/bin/web-client"
 # Setup desktop integration (launcher, icon, menu entry)
 cp "${WORKDIR}/plexmediaplayer.desktop" "${APPDIR}/${LOWERAPP}.desktop"
 cp "${WORKDIR}/plex-media-player/resources/images/icon.png" "${APPDIR}/${LOWERAPP}.png"
-
 cd "${APPDIR}"
 get_apprun
 get_desktopintegration ${LOWERAPP}
@@ -157,9 +157,14 @@ cd "${OLDPWD}"
 # Create AppImage bundle
 APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
 cd "${WORKDIR}/appimage"
-./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -bundle-non-qt-libs
+./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -qmldir="../plex-media-player/src/ui" -bundle-non-qt-libs
 ./linuxdeployqt "${APPDIR}/usr/bin/pmphelper" -bundle-non-qt-libs
-./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -qmldir="../plex-media-player/src/ui" -appimage
+# Fix: linuxdeployqt overwrites AppRun binary
+cd "${APPDIR}"
+rm -f AppRun
+get_apprun
+cd "${OLDPWD}"
+./appimagetool -n "${APPDIR}"
 mv *.AppImage "${WORKDIR}/${APPIMAGE_FILE_NAME}"
 
 cd "${WORKDIR}"
