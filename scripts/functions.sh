@@ -49,7 +49,7 @@ patch_usr()
 get_apprun()
 {
   APPRUN_ARCH=${ARCH:-$TARGET_ARCH}
-  wget -c https://github.com/probonopd/AppImageKit/releases/download/continuous/AppRun-${TARGET_ARCH} -O AppRun
+  wget -c https://github.com/AppImage/AppImageKit/releases/download/continuous/AppRun-${TARGET_ARCH} -O AppRun
   chmod a+x AppRun
 }
 
