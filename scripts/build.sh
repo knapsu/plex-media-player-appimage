@@ -149,7 +149,7 @@ ln -s "../share/plexmediaplayer/web-client" "${APPDIR}/usr/bin/web-client"
 # Setup desktop integration (launcher, icon, menu entry)
 cp "${WORKDIR}/plexmediaplayer.desktop" "${APPDIR}/${LOWERAPP}.desktop"
 cp "${WORKDIR}/plex-media-player/resources/images/icon.png" "${APPDIR}/${LOWERAPP}.png"
-mkdir -p "${APPDIR}/usr/share/icons/hicolor/{256x256}/apps"
+mkdir -p "${APPDIR}/usr/share/icons/hicolor/256x256/apps"
 cp "${WORKDIR}/plex-media-player/resources/images/icon.png" "${APPDIR}/usr/share/icons/hicolor/256x256/apps/${LOWERAPP}.png"
 cd "${APPDIR}"
 get_apprun
