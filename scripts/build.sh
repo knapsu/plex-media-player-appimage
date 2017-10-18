@@ -125,7 +125,7 @@ rm -rf build
 mkdir -p build
 cd build
 conan install ..
-cmake -DCMAKE_BUILD_TYPE=Release -DQTROOT="${QTDIR}" -DCMAKE_INSTALL_PREFIX=/usr ..
+cmake -DCMAKE_BUILD_TYPE=Release -DQTROOT="${QTDIR}" -DCMAKE_INSTALL_PREFIX=/usr -DLINUX_X11POWER=on ..
 make
 mkdir -p install
 make install DESTDIR=install
