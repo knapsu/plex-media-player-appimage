@@ -37,7 +37,7 @@ if [ -n "${CHECK_DATE}" ]; then
   fi
 
   curl -s -f -o response.json https://api.github.com/repos/plexinc/plex-media-player/releases
-  IFS=$'\n' NEW_RELEASES=($(jq -r ".[] | {tag_name, created_at} | select(.created_at >= \"${CHECK_DATE}\") | .tag_name" response.json))
+  IFS=$'\n' NEW_RELEASES=($(jq -r ".[] | {tag_name, published_at} | select(.published_at >= \"${CHECK_DATE}\") | .tag_name" response.json))
   rm -f response.json
 
   if [ ${#NEW_RELEASES[@]} -eq 0 ]; then
