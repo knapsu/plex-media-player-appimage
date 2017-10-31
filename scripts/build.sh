@@ -130,7 +130,7 @@ make
 mkdir -p install
 make install DESTDIR=install
 
-# Prepare working directory
+# Prepare AppImage working directory
 cd "${WORKDIR}"
 mkdir -p "appimage"
 cd "appimage"
