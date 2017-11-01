@@ -19,7 +19,7 @@ For more information about Plex please visit https://www.plex.tv/ site.
 
 AppImages is a universal Linux package that can be used in any modern Linux distribution.
 
-For more information about AppImage package please visit http://appimage.org/ site.
+For more information about AppImage package please visit https://appimage.org/ site.
 
 ## Docker
 
