@@ -3,7 +3,7 @@ set -e
 
 SCRIPT=$(readlink -f "$0")
 SCRIPTDIR=$(dirname "${SCRIPT}")
-WORKDIR=${PWD}
+WORKDIR="${PWD}"
 
 # Load helper functions
 source "${SCRIPTDIR}/functions.sh"
@@ -63,7 +63,7 @@ cd "${WORKDIR}"
 if [[ -d plex-media-player ]]; then
   cd plex-media-player
   git clean -xdf
-  git checkout master
+  git checkout tv2
   git pull
 else
   git clone https://github.com/plexinc/plex-media-player.git
@@ -124,7 +124,6 @@ cd "${WORKDIR}/plex-media-player"
 rm -rf build 
 mkdir -p build
 cd build
-conan install ..
 cmake -DCMAKE_BUILD_TYPE=Release -DQTROOT="${QTDIR}" -DCMAKE_INSTALL_PREFIX=/usr -DLINUX_X11POWER=on ..
 make
 mkdir -p install
