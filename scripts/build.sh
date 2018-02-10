@@ -6,7 +6,7 @@ SCRIPTDIR=$(dirname "${SCRIPT}")
 WORKDIR="${PWD}"
 
 # Load helper functions
-source "${SCRIPTDIR}/functions.sh"
+source "${SCRIPTDIR}/appimagekit/functions.sh"
 
 # Initialize Qt environment
 set +e
@@ -152,7 +152,7 @@ mkdir -p "${APPDIR}/usr/share/icons/hicolor/256x256/apps"
 cp "${WORKDIR}/plex-media-player/resources/images/icon.png" "${APPDIR}/usr/share/icons/hicolor/256x256/apps/${LOWERAPP}.png"
 cd "${APPDIR}"
 get_apprun
-get_desktopintegration ${LOWERAPP}
+get_desktopintegration ${LOWERAPP} "${SCRIPTDIR}/appimagekit/desktopintegration.sh"
 cd "${OLDPWD}"
 
 # Create AppImage bundle

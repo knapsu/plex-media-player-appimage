@@ -130,8 +130,9 @@ glibc_needed()
 # Usage: get_desktopintegration name_of_desktop_file_and_exectuable
 get_desktopintegration()
 {
-  REALBIN=$(grep -o "^Exec=.*" *.desktop | sed -e 's|Exec=||g' | cut -d " " -f 1 | head -n 1)
-  cat_file_from_url https://github.com/AppImage/AppImageKit/raw/c73b8bd0487ab0a80cc043ea4a0f73dfc94d9809/desktopintegration > ./usr/bin/$REALBIN.wrapper
+  REALBIN=$(grep -o "^Exec=.*" $1.desktop | sed -e 's|Exec=||g' | cut -d " " -f 1 | head -n 1)
+  cp "$2" ./usr/bin/$REALBIN.wrapper
+#  cat_file_from_url https://github.com/AppImage/AppImageKit/raw/c73b8bd0487ab0a80cc043ea4a0f73dfc94d9809/desktopintegration > ./usr/bin/$REALBIN.wrapper
   chmod a+x ./usr/bin/$REALBIN.wrapper
 
   sed -i -e "s|^Exec=$REALBIN|Exec=$REALBIN.wrapper|g" $1.desktop
