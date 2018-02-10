@@ -7,3 +7,4 @@ Exec=plexmediaplayer
 Terminal=false
 Icon=plexmediaplayer
 Categories=AudioVideo;Player;
+StartupWMClass=plexmediaplayer
