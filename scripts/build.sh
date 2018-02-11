@@ -66,7 +66,7 @@ if [[ -d plex-media-player ]]; then
   git checkout tv2
   git pull
 else
-  git clone https://github.com/plexinc/plex-media-player.git
+  git clone -b tv2 https://github.com/plexinc/plex-media-player.git
   cd plex-media-player
 fi
 
