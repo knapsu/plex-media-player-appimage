@@ -116,12 +116,13 @@ cd "${WORKDIR}/mpv-build"
 echo "--prefix=/usr" > mpv_options
 echo "--enable-libmpv-shared" >> mpv_options
 echo "--disable-cplayer" >> mpv_options
+echo "--disable-oss-audio" >> mpv_options
 ./rebuild
 ./install
 
 # Build Plex Media Player
 cd "${WORKDIR}/plex-media-player"
-rm -rf build 
+rm -rf build
 mkdir -p build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DQTROOT="${QTDIR}" -DCMAKE_INSTALL_PREFIX=/usr -DLINUX_X11POWER=on ..

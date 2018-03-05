@@ -59,6 +59,7 @@ RUN set -e \
     python3-pip \
     python3-setuptools \
     libcec4-dev \
+    wayland-protocols \
     fuse \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* /var/tmp/* /var/log/*
