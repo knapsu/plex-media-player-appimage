@@ -36,7 +36,9 @@ if [ -n "${CHECK_DATE}" ]; then
     exit 2
   fi
 
-  curl -s -f -o response.json https://api.github.com/repos/plexinc/plex-media-player/releases
+  echo "Retrieving GitHub releases information"
+  curl -f -s -S -o response.json https://api.github.com/repos/plexinc/plex-media-player/releases
+  echo "Parsing data"
   IFS=$'\n' NEW_RELEASES=($(jq -r ".[] | {tag_name, published_at} | select(.published_at >= \"${CHECK_DATE}\") | .tag_name" response.json))
   rm -f response.json
 
@@ -57,7 +59,7 @@ if [ -n "${CHECK_DATE}" ]; then
         -o response.json \
         https://api.travis-ci.org/repo/knapsu%2Fplex-media-player-appimage/requests
       if [[ $? -ne 0 ]]; then
-        echo "Travis CI request failed"
+        echo "Request to Travis CI failed"
         TRAVIS_ERROR="true"
       fi
       rm -f response.json
