@@ -4,9 +4,9 @@
 
 ## Introduction
 
-This repository automates building AppImage packages for Plex Media Player application. 
+This repository automates building Linux AppImage packages for Plex Media Player application.
 
-Packages for x86-64 (64-bit Intel/AMD) architecture are generated daily by Travis CI build system and can be downloaded from https://knapsu.eu/plex/.
+Packages for x64 architecture (64-bit AMD or Intel processors) are built daily and can be downloaded from https://knapsu.eu/plex/.
 
 ## Plex Media Player
 
@@ -17,14 +17,23 @@ For more information about Plex please visit https://www.plex.tv/ site.
 
 ## AppImage
 
-AppImages is a universal Linux package that can be used in any modern Linux distribution.
+AppImages is an universal Linux package format that can be used in any modern Linux distribution.
 
 For more information about AppImage package please visit https://appimage.org/ site.
 
+## Source code
+
+Packages are build from official Plex Media Player source code *without any modifications*.
+https://github.com/plexinc/plex-media-player
+
 ## Docker
 
-Directory `docker` contains files used to create a Docker image of a fully functional build environment. This build environment image is used by Travis CI to create and publish the binaries. Using Docker also makes it easy to reproduce builds on other systems.
+Docker is used to create images of a fully functional build environment. This build environment is then used by continuous integration system (Travis CI) to start the actual build. Using Docker makes the build quicker (no need to setup development tools and libraries) and also makes it easy to reproduce builds on other systems.
 
-### Docker images
-
+Docker images:
 - [knapsu/plexmediaplayer-build](https://hub.docker.com/r/knapsu/plexmediaplayer-build/)
+
+## Travis
+
+Travis CI does the build process. It compiles the application, assembles the packages and publishes them. Logs from all builds are public and fully transparent.
+https://travis-ci.org/knapsu/plex-media-player-appimage

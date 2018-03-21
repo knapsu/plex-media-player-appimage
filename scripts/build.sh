@@ -23,7 +23,7 @@ DATE=$(date -u +'%Y%m%d')
 case "$(uname -i)" in
   x86_64|amd64)
     SYSTEM_ARCH="x86_64"
-    SYSTEM_PLATFORM="x86-64";;
+    SYSTEM_PLATFORM="x64";;
   i?86)
     SYSTEM_ARCH="i686"
     SYSTEM_PLATFORM="x86";;
@@ -36,7 +36,7 @@ echo "System architecture: ${SYSTEM_PLATFORM}"
 case "${ARCH:-$(uname -i)}" in
   x86_64|amd64)
     TARGET_ARCH="x86_64"
-    PLATFORM="x86-64";;
+    PLATFORM="x64";;
   i?86)
     TARGET_ARCH="i686"
     PLATFORM="x86";;
