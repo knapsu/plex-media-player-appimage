@@ -63,10 +63,10 @@ cd "${WORKDIR}"
 if [[ -d plex-media-player ]]; then
   cd plex-media-player
   git clean -xdf
-  git checkout tv2
+  git checkout master
   git pull
 else
-  git clone -b tv2 https://github.com/plexinc/plex-media-player.git
+  git clone --branch master https://github.com/plexinc/plex-media-player.git
   cd plex-media-player
 fi
 
