@@ -156,8 +156,7 @@ get_apprun
 get_desktopintegration ${LOWERAPP} "${SCRIPTDIR}/appimagekit/desktopintegration.sh"
 cd "${OLDPWD}"
 
-# Create AppImage bundle
-APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
+# Bundle libraries
 cd "${WORKDIR}/appimage"
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -qmldir="../plex-media-player/src/ui" -bundle-non-qt-libs
 ./linuxdeployqt "${APPDIR}/usr/bin/pmphelper" -bundle-non-qt-libs
@@ -166,6 +165,14 @@ cd "${APPDIR}"
 rm -f AppRun
 get_apprun
 cd "${OLDPWD}"
+# Fix: libnss*.so makes problems
+cd "${APPDIR}"
+rm -f usr/lib/libnss*
+cd "${OLDPWD}"
+
+# Create AppImage
+APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
+cd "${WORKDIR}/appimage"
 ./appimagetool -n "${APPDIR}"
 mv *.AppImage "${WORKDIR}/${APPIMAGE_FILE_NAME}"
 
