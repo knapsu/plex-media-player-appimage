@@ -23,17 +23,19 @@ For more information about AppImage package please visit https://appimage.org/ s
 
 ## Source code
 
-Packages are build from official Plex Media Player source code *without any modifications*.
+Packages are build from official Plex Media Player source code without any modifications. Plex source code repository is available on GitHub.
+
 https://github.com/plexinc/plex-media-player
 
 ## Docker
 
-Docker is used to create images of a fully functional build environment. This build environment is then used by continuous integration system (Travis CI) to start the actual build. Using Docker makes the build quicker (no need to setup development tools and libraries) and also makes it easy to reproduce builds on other systems.
+Docker was used to prepare a fully functional build environment image that contains everything what is needed to compile Plex Media Player. This image is used by continuous integration system (Travis CI) to start the package build process.
 
 Docker images:
 - [knapsu/plexmediaplayer-build](https://hub.docker.com/r/knapsu/plexmediaplayer-build/)
 
 ## Travis
 
-Travis CI does the build process. It compiles the application, assembles the packages and publishes them. Logs from all builds are public and fully transparent.
+Travis CI is responsible for doing the actual build. It initializes the build environment, compiles the application, assembles the packages and publishes them. Travis build history is fully transparent and publicly available.
+
 https://travis-ci.org/knapsu/plex-media-player-appimage
