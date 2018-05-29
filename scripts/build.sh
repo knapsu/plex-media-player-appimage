@@ -53,9 +53,9 @@ if [[ -d mpv-build ]]; then
   git clean -xdf
   git checkout master
   git pull
+  cd ..
 else
   git clone https://github.com/mpv-player/mpv-build.git
-  cd mpv-build
 fi
 
 # Checkout Plex Media Player
@@ -65,12 +65,13 @@ if [[ -d plex-media-player ]]; then
   git clean -xdf
   git checkout master
   git pull
+  cd ..
 else
   git clone --branch master https://github.com/plexinc/plex-media-player.git
-  cd plex-media-player
 fi
 
 # If building from tag use a specific version of Plex Media Player sources
+cd plex-media-player
 if [[ -n "${PLEX_TAG}" ]]; then
   echo "Checkout from tag"
   git checkout ${PLEX_TAG}
@@ -117,6 +118,9 @@ echo "--prefix=/usr" > mpv_options
 echo "--enable-libmpv-shared" >> mpv_options
 echo "--disable-cplayer" >> mpv_options
 echo "--disable-oss-audio" >> mpv_options
+./use-ffmpeg-custom n3.4.2
+./use-libass-custom 0.14.0
+./use-mpv-custom v0.27.2
 ./rebuild
 ./install
 
