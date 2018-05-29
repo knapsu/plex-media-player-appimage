@@ -56,16 +56,8 @@ RUN set -e \
     qt59webchannel \
     qt59webengine \
     qt59x11extras \
-    python3-pip \
-    python3-setuptools \
     libcec4-dev \
     wayland-protocols \
     fuse \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* /var/tmp/* /var/log/*
-
-# Setup Conan package manager
-RUN set -e \
-  && pip3 install -U pip \
-  && pip3 install -U conan \
-  && conan remote add plex https://conan.plex.tv
