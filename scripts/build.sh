@@ -15,6 +15,13 @@ set -e
 
 git config --global advice.detachedHead false
 
+set +e
+uname -a
+lsb_release -c
+ls -l /usr/include/linux/cuda.h
+apt-cache show linux-libc-dev
+set -e
+
 # Define build variables
 APP="Plex Media Player"
 LOWERAPP="plexmediaplayer"
