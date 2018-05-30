@@ -11,6 +11,7 @@ source "${SCRIPTDIR}/appimagekit/functions.sh"
 # Initialize Qt environment
 set +e
 source "/opt/qt59/bin/qt59-env.sh"
+qmake --version
 set -e
 
 git config --global advice.detachedHead false
