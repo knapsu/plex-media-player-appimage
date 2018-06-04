@@ -11,17 +11,9 @@ source "${SCRIPTDIR}/appimagekit/functions.sh"
 # Initialize Qt environment
 set +e
 source "/opt/qt59/bin/qt59-env.sh"
-qmake --version
 set -e
 
 git config --global advice.detachedHead false
-
-set +e
-uname -a
-lsb_release -c
-ls -l /usr/include/linux/cuda.h
-apt-cache show linux-libc-dev
-set -e
 
 # Define build variables
 APP="Plex Media Player"
@@ -54,6 +46,9 @@ case "${ARCH:-$(uname -i)}" in
 esac
 echo "Target architecture: ${PLATFORM}"
 
+# Display Qt version
+qmake --version
+
 # Checkout mpv player
 cd "${WORKDIR}"
 if [[ -d mpv-build ]]; then
@@ -81,7 +76,7 @@ fi
 # If building from tag use a specific version of Plex Media Player sources
 cd plex-media-player
 if [[ -n "${PLEX_TAG}" ]]; then
-  echo "Checkout from tag"
+  echo "Checkout from tag: ${PLEX_TAG}"
   git checkout ${PLEX_TAG}
 fi
 COMMIT_HASH=$(git log -n 1 --pretty=format:'%h' --abbrev=8)
@@ -172,13 +167,13 @@ cd "${OLDPWD}"
 cd "${WORKDIR}/appimage"
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -qmldir="../plex-media-player/src/ui" -bundle-non-qt-libs
 ./linuxdeployqt "${APPDIR}/usr/bin/pmphelper" -bundle-non-qt-libs
-# Fix: linuxdeployqt overwrites AppRun binary
+
 cd "${APPDIR}"
+# Fix: linuxdeployqt overwrites AppRun binary
 rm -f AppRun
 get_apprun
-cd "${OLDPWD}"
-# Fix: libnss*.so makes problems
-cd "${APPDIR}"
+# Fix: remove problematic libraries
+rm -f usr/lib/libEGL*
 rm -f usr/lib/libnss*
 cd "${OLDPWD}"
 
