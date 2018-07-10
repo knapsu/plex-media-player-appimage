@@ -115,15 +115,29 @@ else
   VERSION="${DATE}_${COMMIT_HASH}"
 fi
 
-# Build mpv player
+# Build mpv library
 cd "${WORKDIR}/mpv-build"
+./use-libass-custom 0.14.0
+./use-ffmpeg-custom n3.4.2
+./use-mpv-custom v0.27.2
+
+# FFmpeg build options
+echo "--enable-vaapi" > ffmpeg_options
+echo "--disable-vdpau" >> ffmpeg_options
+
+# mpv build options
 echo "--prefix=/usr" > mpv_options
 echo "--enable-libmpv-shared" >> mpv_options
 echo "--disable-cplayer" >> mpv_options
+echo "--disable-build-date" >> mpv_options
+echo "--enable-vaapi" >> mpv_options
+echo "--disable-vdpau" >> mpv_options
+echo "--enable-pulse" >> mpv_options
+echo "--disable-alsa" >> mpv_options
 echo "--disable-oss-audio" >> mpv_options
-./use-ffmpeg-custom n3.4.2
-./use-libass-custom 0.14.0
-./use-mpv-custom v0.27.2
+echo "--disable-manpage-build" >> mpv_options
+echo "--disable-tv" >> mpv_options
+
 ./rebuild
 ./install
 
@@ -160,7 +174,7 @@ mkdir -p "${APPDIR}/usr/share/icons/hicolor/256x256/apps"
 cp "${WORKDIR}/plex-media-player/resources/images/icon.png" "${APPDIR}/usr/share/icons/hicolor/256x256/apps/${LOWERAPP}.png"
 cd "${APPDIR}"
 get_apprun
-get_desktopintegration ${LOWERAPP} "${SCRIPTDIR}/appimagekit/desktopintegration.sh"
+get_desktopintegration "${LOWERAPP}" "${SCRIPTDIR}/appimagekit/desktopintegration.sh"
 cd "${OLDPWD}"
 
 # Bundle libraries
