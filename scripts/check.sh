@@ -37,7 +37,12 @@ if [ -n "${CHECK_DATE}" ]; then
   fi
 
   echo "Retrieving GitHub releases information"
-  curl -f -s -S -o response.json https://api.github.com/repos/plexinc/plex-media-player/releases
+  curl -f -s -S \
+    -H "Travis-API-Version: 3" \
+    -H "Accept: application/json" \
+    -H "Authorization: token ${TRAVIS_API_TOKEN}" \
+    -o response.json \
+    https://api.github.com/repos/plexinc/plex-media-player/releases
   echo "Parsing data"
   IFS=$'\n' NEW_RELEASES=($(jq -r ".[] | {tag_name, published_at} | select(.published_at >= \"${CHECK_DATE}\") | .tag_name" response.json))
   rm -f response.json
@@ -51,9 +56,9 @@ if [ -n "${CHECK_DATE}" ]; then
       echo "Notifying Travis CI to schedule a build"
 
       curl -s -f -X POST \
+        -H "Travis-API-Version: 3" \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -H "Travis-API-Version: 3" \
         -H "Authorization: token ${TRAVIS_API_TOKEN}" \
         -d "{ \"request\": { \"branch\": \"master\", \"config\": { \"env\": { \"PLEX_TAG\": \"${RELEASE}\", \"DOCKER_IMAGE\": \"${DOCKER_IMAGE}\" } } } } " \
         -o response.json \

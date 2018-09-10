@@ -106,8 +106,9 @@ glibc_needed()
 # Usage: get_desktopintegration name_of_desktop_file_and_exectuable
 get_desktopintegration()
 {
-  REALBIN=$(grep -o "^Exec=.*" *.desktop | sed -e 's|Exec=||g' | cut -d " " -f 1 | head -n 1)
-  cat_file_from_url https://raw.githubusercontent.com/AppImage/AppImageKit/master/desktopintegration > ./usr/bin/$REALBIN.wrapper
+  REALBIN=$(grep -o "^Exec=.*" $1.desktop | sed -e 's|Exec=||g' | cut -d " " -f 1 | head -n 1)
+  cp "$2" ./usr/bin/$REALBIN.wrapper
+  #cat_file_from_url https://github.com/AppImage/AppImageKit/raw/c73b8bd0487ab0a80cc043ea4a0f73dfc94d9809/desktopintegration > ./usr/bin/$REALBIN.wrapper
   chmod a+x ./usr/bin/$REALBIN.wrapper
 
   sed -i -e "s|^Exec=$REALBIN|Exec=$REALBIN.wrapper|g" $1.desktop
@@ -120,7 +121,7 @@ generate_appimage()
   URL="https://github.com/AppImage/AppImageKit/releases/download/6/AppImageAssistant_6-${SYSTEM_ARCH}.AppImage"
   wget -c "$URL" -O AppImageAssistant
   chmod a+x ./AppImageAssistant
-  
+
   # if [[ "$RECIPE" == *ecipe ]] ; then
   #   echo "#!/bin/bash -ex" > ./$APP.AppDir/Recipe
   #   echo "# This recipe was used to generate this AppImage." >> ./$APP.AppDir/Recipe
@@ -167,7 +168,30 @@ generate_type2_appimage()
   URL="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-${SYSTEM_ARCH}.AppImage"
   wget -c "$URL" -O appimagetool
   chmod a+x ./appimagetool
+  appimagetool=$(readlink -f appimagetool)
+
+  if [ "$DOCKER_BUILD" ]; then
+    appimagetool_tempdir=$(mktemp -d)
+    mv appimagetool "$appimagetool_tempdir"
+    pushd "$appimagetool_tempdir" &>/dev/null
+    ls -al
+    ./appimagetool --appimage-extract
+    rm appimagetool
+    appimagetool=$(readlink -f squashfs-root/AppRun)
+    popd &>/dev/null
+    _appimagetool_cleanup() { [ -d "$appimagetool_tempdir" ] && rm -r "$appimagetool_tempdir"; }
+    trap _appimagetool_cleanup EXIT
+  fi
+
+  if [ -z ${NO_GLIBC_VERSION+true} ]; then
+    GLIBC_NEEDED=$(glibc_needed)
+    VERSION_EXPANDED=$VERSION.glibc$GLIBC_NEEDED
+  else
+    VERSION_EXPANDED=$VERSION
+  fi
+
   set +x
+  GLIBC_NEEDED=$(glibc_needed)
   if ( [ ! -z "$KEY" ] ) && ( ! -z "$TRAVIS" ) ; then
     wget https://github.com/AppImage/AppImageKit/files/584665/data.zip -O data.tar.gz.gpg
     ( set +x ; echo $KEY | gpg2 --batch --passphrase-fd 0 --no-tty --skip-verify --output data.tar.gz --decrypt data.tar.gz.gpg )
