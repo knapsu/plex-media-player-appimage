@@ -198,7 +198,7 @@ get_apprun
 # Fix: remove problematic libraries
 rm -f usr/lib/libEGL*
 rm -f usr/lib/libnss*
-rm -f usr/lib/libxcb*
+#rm -f usr/lib/libxcb*
 cd "${OLDPWD}"
 
 # Create AppImage
