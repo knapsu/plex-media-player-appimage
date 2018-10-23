@@ -56,8 +56,9 @@ patch_usr()
 get_apprun()
 {
   APPRUN_ARCH=${ARCH:-$TARGET_ARCH}
-  wget -c https://github.com/AppImage/AppImageKit/releases/download/10/AppRun-${APPRUN_ARCH} -O AppRun
-  chmod a+x AppRun
+  URL="https://github.com/AppImage/AppImageKit/releases/download/10/AppRun-${APPRUN_ARCH}"
+  wget -c "$URL" -O "./AppRun"
+  chmod a+x "./AppRun"
 }
 
 download_appimagetool()
@@ -131,9 +132,9 @@ glibc_needed()
 get_desktopintegration()
 {
   REALBIN=$(grep -o "^Exec=.*" $1.desktop | sed -e 's|Exec=||g' | cut -d " " -f 1 | head -n 1)
-  cp "$2" ./usr/bin/$REALBIN.wrapper
 #  cat_file_from_url https://github.com/AppImage/AppImageKit/raw/c73b8bd0487ab0a80cc043ea4a0f73dfc94d9809/desktopintegration > ./usr/bin/$REALBIN.wrapper
-  chmod a+x ./usr/bin/$REALBIN.wrapper
+  cp "$2" "./usr/bin/$REALBIN.wrapper"
+  chmod a+x "./usr/bin/$REALBIN.wrapper"
 
   sed -i -e "s|^Exec=$REALBIN|Exec=$REALBIN.wrapper|g" $1.desktop
 }

@@ -122,7 +122,15 @@ cd "${WORKDIR}/mpv-build"
 ./use-mpv-custom v0.27.2
 
 # FFmpeg build options
-echo "--enable-vaapi" > ffmpeg_options
+echo "--enable-shared" > ffmpeg_options
+echo "--disable-static" >> ffmpeg_options
+echo "--disable-doc" >> ffmpeg_options
+echo "--enable-gnutls" >> ffmpeg_options
+echo "--disable-programs" >> ffmpeg_options
+echo "--disable-encoders" >> ffmpeg_options
+echo "--disable-muxers" >> ffmpeg_options
+echo "--disable-devices" >> ffmpeg_options
+echo "--enable-vaapi" >> ffmpeg_options
 echo "--disable-vdpau" >> ffmpeg_options
 
 # mpv build options
@@ -130,12 +138,12 @@ echo "--prefix=/usr" > mpv_options
 echo "--enable-libmpv-shared" >> mpv_options
 echo "--disable-cplayer" >> mpv_options
 echo "--disable-build-date" >> mpv_options
+echo "--disable-manpage-build" >> mpv_options
 echo "--enable-vaapi" >> mpv_options
 echo "--disable-vdpau" >> mpv_options
 echo "--enable-pulse" >> mpv_options
-echo "--disable-alsa" >> mpv_options
+echo "--enable-alsa" >> mpv_options
 echo "--disable-oss-audio" >> mpv_options
-echo "--disable-manpage-build" >> mpv_options
 echo "--disable-tv" >> mpv_options
 
 ./rebuild
@@ -169,6 +177,7 @@ ln -s "../share/plexmediaplayer/web-client" "${APPDIR}/usr/bin/web-client"
 
 # Setup desktop integration (launcher, icon, menu entry)
 cp "${WORKDIR}/plexmediaplayer.desktop" "${APPDIR}/${LOWERAPP}.desktop"
+cp "${WORKDIR}/plex-media-player/resources/images/icon.svg" "${APPDIR}/${LOWERAPP}.svg"
 cp "${WORKDIR}/plex-media-player/resources/images/icon.png" "${APPDIR}/${LOWERAPP}.png"
 mkdir -p "${APPDIR}/usr/share/icons/hicolor/256x256/apps"
 cp "${WORKDIR}/plex-media-player/resources/images/icon.png" "${APPDIR}/usr/share/icons/hicolor/256x256/apps/${LOWERAPP}.png"
@@ -189,6 +198,7 @@ get_apprun
 # Fix: remove problematic libraries
 rm -f usr/lib/libEGL*
 rm -f usr/lib/libnss*
+rm -f usr/lib/libxcb*
 cd "${OLDPWD}"
 
 # Create AppImage
