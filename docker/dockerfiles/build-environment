@@ -11,7 +11,7 @@ ADD assets/apt_mindeps /etc/apt/apt.conf.d/90_mindeps
 RUN set -e \
   && apt-get update \
   && apt-get install -y software-properties-common \
-  && add-apt-repository -y ppa:beineri/opt-qt595-xenial \
+  && add-apt-repository -y ppa:beineri/opt-qt596-xenial \
   && add-apt-repository -y ppa:git-core/ppa \
   && add-apt-repository -y ppa:pulse-eight/libcec \
   && rm -rf /var/lib/apt/lists/* \
