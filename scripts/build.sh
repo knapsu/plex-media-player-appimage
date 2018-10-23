@@ -118,7 +118,7 @@ fi
 # Build mpv library
 cd "${WORKDIR}/mpv-build"
 ./use-libass-custom 0.14.0
-./use-ffmpeg-custom n3.4.2
+./use-ffmpeg-custom n3.4.4
 ./use-mpv-custom v0.27.2
 
 # FFmpeg build options
