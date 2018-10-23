@@ -117,15 +117,15 @@ fi
 
 # Build mpv library
 cd "${WORKDIR}/mpv-build"
+echo "Using libass 0.14.0"
 ./use-libass-custom 0.14.0
+echo "Using ffmpeg 3.4.4"
 ./use-ffmpeg-custom n3.4.4
+echo "Using mpv 0.27.2"
 ./use-mpv-custom v0.27.2
 
 # FFmpeg build options
-echo "--enable-shared" > ffmpeg_options
-echo "--disable-static" >> ffmpeg_options
-echo "--disable-doc" >> ffmpeg_options
-echo "--enable-gnutls" >> ffmpeg_options
+echo "--disable-doc" > ffmpeg_options
 echo "--disable-programs" >> ffmpeg_options
 echo "--disable-encoders" >> ffmpeg_options
 echo "--disable-muxers" >> ffmpeg_options
@@ -141,6 +141,7 @@ echo "--disable-build-date" >> mpv_options
 echo "--disable-manpage-build" >> mpv_options
 echo "--enable-vaapi" >> mpv_options
 echo "--disable-vdpau" >> mpv_options
+echo "--enable-cuda-hwaccel " >> mpv_options
 echo "--enable-pulse" >> mpv_options
 echo "--enable-alsa" >> mpv_options
 echo "--disable-oss-audio" >> mpv_options
