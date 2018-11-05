@@ -59,5 +59,6 @@ RUN set -e \
     libcec4-dev \
     wayland-protocols \
     fuse \
+    ccache \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* /var/tmp/* /var/log/*

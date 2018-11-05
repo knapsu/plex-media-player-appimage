@@ -49,6 +49,10 @@ echo "Target architecture: ${PLATFORM}"
 # Display Qt version
 qmake --version
 
+# Enable ccache
+export PATH="/usr/lib/ccache:${PATH}"
+export CCACHE_DIR="${WORKDIR}/cache/ccache"
+
 # Checkout mpv player
 cd "${WORKDIR}"
 if [[ -d mpv-build ]]; then
@@ -156,8 +160,15 @@ cd "${WORKDIR}/plex-media-player"
 rm -rf build
 mkdir -p build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DQTROOT="${QTDIR}" -DCMAKE_INSTALL_PREFIX=/usr -DLINUX_X11POWER=on ..
+cmake \
+  -DCMAKE_BUILD_TYPE="Release" \
+  -DCMAKE_INSTALL_PREFIX="/usr" \
+  -DQTROOT="${QTDIR}" \
+  -DLINUX_X11POWER=ON \
+  ..
 make
+ccache -s
+
 mkdir -p install
 make install DESTDIR=install
 
