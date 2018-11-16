@@ -135,7 +135,7 @@ echo "--disable-encoders" >> ffmpeg_options
 echo "--disable-muxers" >> ffmpeg_options
 echo "--disable-devices" >> ffmpeg_options
 echo "--enable-vaapi" >> ffmpeg_options
-echo "--disable-vdpau" >> ffmpeg_options
+echo "--enable-vdpau" >> ffmpeg_options
 echo "--enable-cuda" >> ffmpeg_options
 
 # mpv build options
@@ -145,7 +145,7 @@ echo "--disable-cplayer" >> mpv_options
 echo "--disable-build-date" >> mpv_options
 echo "--disable-manpage-build" >> mpv_options
 echo "--enable-vaapi" >> mpv_options
-echo "--disable-vdpau" >> mpv_options
+echo "--enable-vdpau" >> mpv_options
 echo "--enable-cuda-hwaccel" >> mpv_options
 echo "--enable-pulse" >> mpv_options
 echo "--enable-alsa" >> mpv_options
