@@ -2,9 +2,8 @@
 Version=1.0
 Type=Application
 Name=Plex Media Player
-Comment=
 Exec=plexmediaplayer
-Terminal=false
 Icon=plexmediaplayer
+Terminal=false
 Categories=AudioVideo;Player;
 StartupWMClass=plexmediaplayer

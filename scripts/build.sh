@@ -10,7 +10,7 @@ source "${SCRIPTDIR}/appimagekit/functions.sh"
 
 # Initialize Qt environment
 set +e
-source "/opt/qt59/bin/qt59-env.sh"
+source /opt/qt*/bin/qt*-env.sh
 set -e
 
 git config --global advice.detachedHead false
@@ -167,10 +167,12 @@ cmake \
   -DLINUX_X11POWER=ON \
   ..
 make
-ccache -s
 
 mkdir -p install
 make install DESTDIR=install
+
+# Show build cache statistics
+ccache -s
 
 # Prepare AppImage working directory
 cd "${WORKDIR}"
