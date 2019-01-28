@@ -130,6 +130,18 @@ echo "Using mpv ${MPV_VERSION}"
 echo "Using libass 0.14.0"
 ./use-libass-custom 0.14.0
 
+# ffnvcodec is needed for NVIDIA support
+echo "Downloading NVIDIA headers"
+if [[ -d ffnvcodec ]]; then
+  cd ffnvcodec
+  git clean -xdf
+  git checkout master
+  git pull
+  cd ..
+else
+  git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git ffnvcodec
+fi
+
 # FFmpeg build options
 echo "--disable-doc" > ffmpeg_options
 echo "--disable-programs" >> ffmpeg_options
@@ -154,18 +166,8 @@ echo "--enable-alsa" >> mpv_options
 echo "--disable-oss-audio" >> mpv_options
 echo "--disable-tv" >> mpv_options
 
-# ffnvcodec is needed for NVIDIA support
-if [[ -d ffnvcodec ]]; then
-  cd ffnvcodec
-  git clean -xdf
-  git checkout master
-  git pull
-  cd ..
-else
-  git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git ffnvcodec
-fi
 cd ffnvcodec
-make && make install
+make && make install PREFIX="/usr"
 cd ..
 
 ./rebuild
