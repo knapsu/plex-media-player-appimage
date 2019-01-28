@@ -19,6 +19,8 @@ git config --global advice.detachedHead false
 APP="Plex Media Player"
 LOWERAPP="plexmediaplayer"
 DATE=$(date -u +'%Y%m%d')
+FFMPEG_VERSION="4.0.3"
+MPV_VERSION="0.29.1"
 
 case "$(uname -i)" in
   x86_64|amd64)
@@ -121,12 +123,12 @@ fi
 
 # Build mpv library
 cd "${WORKDIR}/mpv-build"
+echo "Using ffmpeg ${FFMPEG_VERSION}"
+./use-ffmpeg-custom "n${FFMPEG_VERSION}"
+echo "Using mpv ${MPV_VERSION}"
+./use-mpv-custom "v${MPV_VERSION}"
 echo "Using libass 0.14.0"
 ./use-libass-custom 0.14.0
-echo "Using ffmpeg 3.4.4"
-./use-ffmpeg-custom n3.4.4
-echo "Using mpv 0.27.2"
-./use-mpv-custom v0.27.2
 
 # FFmpeg build options
 echo "--disable-doc" > ffmpeg_options
@@ -134,7 +136,7 @@ echo "--disable-programs" >> ffmpeg_options
 echo "--disable-encoders" >> ffmpeg_options
 echo "--disable-muxers" >> ffmpeg_options
 echo "--disable-devices" >> ffmpeg_options
-echo "--enable-vaapi" >> ffmpeg_options
+echo "--disable-vaapi" >> ffmpeg_options
 echo "--enable-vdpau" >> ffmpeg_options
 echo "--enable-cuda" >> ffmpeg_options
 
@@ -144,13 +146,27 @@ echo "--enable-libmpv-shared" >> mpv_options
 echo "--disable-cplayer" >> mpv_options
 echo "--disable-build-date" >> mpv_options
 echo "--disable-manpage-build" >> mpv_options
-echo "--enable-vaapi" >> mpv_options
+echo "--disable-vaapi" >> mpv_options
 echo "--enable-vdpau" >> mpv_options
 echo "--enable-cuda-hwaccel" >> mpv_options
 echo "--enable-pulse" >> mpv_options
 echo "--enable-alsa" >> mpv_options
 echo "--disable-oss-audio" >> mpv_options
 echo "--disable-tv" >> mpv_options
+
+# ffnvcodec is needed for NVIDIA support
+if [[ -d ffnvcodec ]]; then
+  cd ffnvcodec
+  git clean -xdf
+  git checkout master
+  git pull
+  cd ..
+else
+  git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git ffnvcodec
+fi
+cd ffnvcodec
+make && make install
+cd ..
 
 ./rebuild
 ./install
@@ -207,6 +223,7 @@ cd "${WORKDIR}/appimage"
 ./linuxdeployqt "${APPDIR}/usr/bin/pmphelper" -bundle-non-qt-libs
 
 cd "${APPDIR}"
+rm -rf usr/share/doc
 # Fix: linuxdeployqt overwrites AppRun binary
 rm -f AppRun
 get_apprun
@@ -214,6 +231,7 @@ get_apprun
 rm -f usr/lib/libEGL*
 rm -f usr/lib/libnss*
 #rm -f usr/lib/libxcb*
+rm -f usr/lib/libfribidi*
 cd "${OLDPWD}"
 
 # Create AppImage
