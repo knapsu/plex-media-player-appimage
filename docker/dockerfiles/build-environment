@@ -57,6 +57,9 @@ RUN set -e \
     qt59webengine \
     qt59x11extras \
     libcec4-dev \
+    libjpeg-dev \
+    libvulkan-dev \
+    libgbm-dev \
     wayland-protocols \
     fuse \
     ccache \
