@@ -232,8 +232,9 @@ get_apprun
 # Fix: remove problematic libraries
 rm -f usr/lib/libEGL*
 rm -f usr/lib/libnss*
-#rm -f usr/lib/libxcb*
 rm -f usr/lib/libfribidi*
+rm -f usr/lib/libxcb-dri2*
+rm -f usr/lib/libxcb-dri3*
 cd "${OLDPWD}"
 
 # Create AppImage
