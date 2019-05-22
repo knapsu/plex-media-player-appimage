@@ -81,7 +81,7 @@ download_appimagetool()
 download_linuxdeployqt()
 {
   echo "Downloading linuxdeployqt"
-  URL="https://github.com/probonopd/linuxdeployqt/releases/download/5/linuxdeployqt-5-${SYSTEM_ARCH}.AppImage"
+  URL="https://github.com/probonopd/linuxdeployqt/releases/download/6/linuxdeployqt-6-${SYSTEM_ARCH}.AppImage"
   OUTPUT_DIR=${1:-.}
   OUTPUT_FILE="${OUTPUT_DIR}/linuxdeployqt"
   unset EXTRA_ARGS

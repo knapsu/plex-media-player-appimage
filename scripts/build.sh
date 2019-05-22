@@ -19,7 +19,7 @@ git config --global advice.detachedHead false
 APP="Plex Media Player"
 LOWERAPP="plexmediaplayer"
 DATE=$(date -u +'%Y%m%d')
-FFMPEG_VERSION="4.0.3"
+FFMPEG_VERSION="4.0.4"
 MPV_VERSION="0.29.1"
 
 case "$(uname -i)" in
@@ -130,12 +130,12 @@ echo "Using mpv ${MPV_VERSION}"
 echo "Using libass 0.14.0"
 ./use-libass-custom 0.14.0
 
-# ffnvcodec is needed for NVIDIA support
+# FFmpeg requires this for NVIDIA support
 echo "Downloading NVIDIA headers"
 if [[ -d ffnvcodec ]]; then
   cd ffnvcodec
   git clean -xdf
-  git checkout master
+  git checkout n8.2.15.8
   git pull
   cd ..
 else
