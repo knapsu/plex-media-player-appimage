@@ -11,7 +11,7 @@ ADD assets/apt_mindeps /etc/apt/apt.conf.d/90_mindeps
 RUN set -e \
   && apt-get update \
   && apt-get install -y software-properties-common \
-  && add-apt-repository -y ppa:beineri/opt-qt-5.11.3-bionic \
+  && add-apt-repository -y ppa:beineri/opt-qt-5.12.3-bionic \
   && add-apt-repository -y ppa:git-core/ppa \
   && add-apt-repository -y ppa:pulse-eight/libcec \
   && rm -rf /var/lib/apt/lists/* \
@@ -49,13 +49,13 @@ RUN set -e \
     libsdl2-dev \
     cmake \
     build-essential \
-    qt511base \
-    qt511quickcontrols \
-    qt511tools \
-    qt511translations \
-    qt511webchannel \
-    qt511webengine \
-    qt511x11extras \
+    qt512base \
+    qt512quickcontrols \
+    qt512tools \
+    qt512translations \
+    qt512webchannel \
+    qt512webengine \
+    qt512x11extras \
     libcec4-dev \
     libjpeg-dev \
     libvulkan-dev \

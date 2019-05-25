@@ -60,6 +60,7 @@ cd "${WORKDIR}"
 if [[ -d mpv-build ]]; then
   cd mpv-build
   git clean -xdf
+  git fetch -t
   git checkout master
   git pull
   cd ..
@@ -72,6 +73,7 @@ cd "${WORKDIR}"
 if [[ -d plex-media-player ]]; then
   cd plex-media-player
   git clean -xdf
+  git fetch -t
   git checkout master
   git pull
   cd ..
@@ -135,6 +137,7 @@ echo "Downloading NVIDIA headers"
 if [[ -d ffnvcodec ]]; then
   cd ffnvcodec
   git clean -xdf
+  git fetch -t
   git checkout n8.2.15.8
   git pull
   cd ..
