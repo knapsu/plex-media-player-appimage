@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -10,11 +10,16 @@ ADD assets/apt_mindeps /etc/apt/apt.conf.d/90_mindeps
 # Add package repositories
 RUN set -e \
   && apt-get update \
+  && apt-get install -y \
+    apt-transport-https \
+    nano \
+    curl \
+    wget \
   && apt-get install -y software-properties-common \
-  && add-apt-repository -y ppa:beineri/opt-qt-5.12.3-xenial \
+  && add-apt-repository -y ppa:beineri/opt-qt-5.12.6-bionic \
   && add-apt-repository -y ppa:git-core/ppa \
   && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor - > /etc/apt/trusted.gpg.d/kitware.gpg \
-  && add-apt-repository "deb https://apt.kitware.com/ubuntu/ xenial main" \
+  && add-apt-repository "deb https://apt.kitware.com/ubuntu/ bionic main" \
   && add-apt-repository -y ppa:pulse-eight/libcec \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* /var/tmp/* /var/log/*
@@ -23,12 +28,10 @@ RUN set -e \
 RUN set -e \
   && apt-get update \
   && apt-get install -y \
-    nano \
-    curl \
-    wget \
+    jq \
     git \
     cmake \
-    jq \
+    build-essential \
     autoconf \
     automake \
     libtool \
@@ -46,10 +49,9 @@ RUN set -e \
     libuchardet-dev \
     zlib1g-dev \
     libfribidi-dev \
-    libgnutls-dev \
+    libgnutls28-dev \
     libgl1-mesa-dev \
     libsdl2-dev \
-    build-essential \
     qt512base \
     qt512quickcontrols \
     qt512tools \
@@ -61,8 +63,10 @@ RUN set -e \
     libjpeg-dev \
     libvulkan-dev \
     libgbm-dev \
+    yasm \
     wayland-protocols \
     fuse \
     ccache \
+  && ln -s /usr/bin/python3 /usr/bin/python \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* /var/tmp/* /var/log/*
