@@ -13,6 +13,8 @@ RUN set -e \
   && apt-get install -y software-properties-common \
   && add-apt-repository -y ppa:beineri/opt-qt-5.12.3-xenial \
   && add-apt-repository -y ppa:git-core/ppa \
+  && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor - > /etc/apt/trusted.gpg.d/kitware.gpg \
+  && add-apt-repository "deb https://apt.kitware.com/ubuntu/ xenial main" \
   && add-apt-repository -y ppa:pulse-eight/libcec \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* /var/tmp/* /var/log/*
@@ -24,6 +26,8 @@ RUN set -e \
     nano \
     curl \
     wget \
+    git \
+    cmake \
     jq \
     autoconf \
     automake \
@@ -37,17 +41,14 @@ RUN set -e \
     libva-dev \
     mesa-common-dev \
     libegl1-mesa-dev \
-    yasm \
     libasound2-dev \
     libpulse-dev \
     libuchardet-dev \
     zlib1g-dev \
     libfribidi-dev \
-    git \
     libgnutls-dev \
     libgl1-mesa-dev \
     libsdl2-dev \
-    cmake \
     build-essential \
     qt512base \
     qt512quickcontrols \
