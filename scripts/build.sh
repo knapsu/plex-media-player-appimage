@@ -139,7 +139,6 @@ if [[ -d ffnvcodec ]]; then
   git clean -xdf
   git fetch -t
   git checkout n8.2.15.8
-  git pull
   cd ..
 else
   git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git ffnvcodec
@@ -195,9 +194,8 @@ make install DESTDIR=install
 ccache -s
 
 # Prepare AppImage working directory
-cd "${WORKDIR}"
-mkdir -p "appimage"
-cd "appimage"
+mkdir -p "${WORKDIR}/appimage"
+cd "${WORKDIR}/appimage"
 download_appimagetool
 download_linuxdeployqt
 

@@ -57,24 +57,20 @@ get_apprun()
 {
   echo "Downloading AppRun"
   APPRUN_ARCH=${ARCH:-$TARGET_ARCH}
-  URL="https://github.com/AppImage/AppImageKit/releases/download/11/AppRun-${APPRUN_ARCH}"
-  curl "${URL}" -o "./AppRun" -L -f -#
-  #wget "${URL}" -O "./AppRun"
+  URL="https://github.com/AppImage/AppImageKit/releases/download/12/AppRun-${APPRUN_ARCH}"
+  echo "${URL}"
+  curl "${URL}" -o "./AppRun" -L -f -s -S
   chmod a+x "./AppRun"
 }
 
 download_appimagetool()
 {
   echo "Downloading appimagetool"
-  URL="https://github.com/AppImage/AppImageKit/releases/download/11/appimagetool-${SYSTEM_ARCH}.AppImage"
+  URL="https://github.com/AppImage/AppImageKit/releases/download/12/appimagetool-${SYSTEM_ARCH}.AppImage"
   OUTPUT_DIR=${1:-.}
   OUTPUT_FILE="${OUTPUT_DIR}/appimagetool"
-  unset EXTRA_ARGS
-  if test -f "${OUTPUT_FILE}"; then
-    EXTRA_ARGS="-z ${OUTPUT_FILE}"
-  fi
-  curl "${URL}" -o "${OUTPUT_FILE}" -L -f -# ${EXTRA_ARGS}
-  #wget "${URL}" -O "${OUTPUT_FILE}"
+  echo "${URL}"
+  curl "${URL}" -o "${OUTPUT_FILE}" -L -f -s -S
   chmod a+x "${OUTPUT_FILE}"
 }
 
@@ -84,12 +80,7 @@ download_linuxdeployqt()
   URL="https://github.com/probonopd/linuxdeployqt/releases/download/6/linuxdeployqt-6-${SYSTEM_ARCH}.AppImage"
   OUTPUT_DIR=${1:-.}
   OUTPUT_FILE="${OUTPUT_DIR}/linuxdeployqt"
-  unset EXTRA_ARGS
-  if test -f "${OUTPUT_FILE}"; then
-    EXTRA_ARGS="-z ${OUTPUT_FILE}"
-  fi
-  curl "${URL}" -o "${OUTPUT_FILE}" -L -f -# ${EXTRA_ARGS}
-  #wget "${URL}" -O "${OUTPUT_FILE}"
+  curl "${URL}" -o "${OUTPUT_FILE}" -L -f -s -S
   chmod a+x "${OUTPUT_FILE}"
 }
 
