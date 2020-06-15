@@ -59,8 +59,9 @@ get_apprun()
   APPRUN_ARCH=${ARCH:-$TARGET_ARCH}
   URL="https://github.com/AppImage/AppImageKit/releases/download/12/AppRun-${APPRUN_ARCH}"
   echo "${URL}"
-  curl "${URL}" -o "./AppRun" -L -f -s -S
-  chmod a+x "./AppRun"
+  curl "${URL}" -o ./AppRun -L -f -s -S
+  sha1sum ./AppRun
+  chmod a+x ./AppRun
 }
 
 download_appimagetool()
@@ -71,16 +72,24 @@ download_appimagetool()
   OUTPUT_FILE="${OUTPUT_DIR}/appimagetool"
   echo "${URL}"
   curl "${URL}" -o "${OUTPUT_FILE}" -L -f -s -S
+  sha1sum "${OUTPUT_FILE}"
+  # echo "Changing magic bytes (workaround for Docker)"
+  # sed "s|AI\x02|\x00\x00\x00|g" -i "${OUTPUT_FILE}"
   chmod a+x "${OUTPUT_FILE}"
 }
 
 download_linuxdeployqt()
 {
   echo "Downloading linuxdeployqt"
-  URL="https://github.com/probonopd/linuxdeployqt/releases/download/6/linuxdeployqt-6-${SYSTEM_ARCH}.AppImage"
+  URL="https://github.com/probonopd/linuxdeployqt/releases/download/5/linuxdeployqt-5-${SYSTEM_ARCH}.AppImage"
+  # URL="https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-${SYSTEM_ARCH}.AppImage"
   OUTPUT_DIR=${1:-.}
   OUTPUT_FILE="${OUTPUT_DIR}/linuxdeployqt"
+  echo "${URL}"
   curl "${URL}" -o "${OUTPUT_FILE}" -L -f -s -S
+  sha1sum "${OUTPUT_FILE}"
+  # echo "Changing magic bytes (workaround for Docker)"
+  # sed "s|AI\x02|\x00\x00\x00|g" -i "${OUTPUT_FILE}"
   chmod a+x "${OUTPUT_FILE}"
 }
 
