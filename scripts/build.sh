@@ -19,8 +19,8 @@ git config --global advice.detachedHead false
 APP="Plex Media Player"
 LOWERAPP="plexmediaplayer"
 DATE=$(date -u +'%Y%m%d')
-FFMPEG_VERSION="4.0.4"
-MPV_VERSION="0.29.1"
+FFMPEG_VERSION="4.2.3"
+MPV_VERSION="0.32.0"
 
 case "$(uname -i)" in
   x86_64|amd64)
@@ -138,7 +138,7 @@ if [[ -d ffnvcodec ]]; then
   cd ffnvcodec
   git clean -xdf
   git fetch -t
-  git checkout n8.2.15.8
+  git checkout n9.0.18.3
   cd ..
 else
   git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git ffnvcodec
@@ -241,10 +241,10 @@ cd "${OLDPWD}"
 APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
 cd "${WORKDIR}/appimage"
 ./appimagetool -n "${APPDIR}"
-mv *.AppImage "${WORKDIR}/${APPIMAGE_FILE_NAME}"
+mv "Plex_Media_Player-${TARGET_ARCH}.AppImage" "${WORKDIR}/${APPIMAGE_FILE_NAME}"
 
 cd "${WORKDIR}"
-sha1sum *.AppImage
+sha1sum ${APPIMAGE_FILE_NAME}
 
 # Remember last source code version used by scheduled build
 if [[ "${TRAVIS}" == "true" ]]; then
