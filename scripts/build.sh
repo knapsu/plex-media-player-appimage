@@ -150,7 +150,7 @@ echo "--disable-programs" >> ffmpeg_options
 echo "--disable-encoders" >> ffmpeg_options
 echo "--disable-muxers" >> ffmpeg_options
 echo "--disable-devices" >> ffmpeg_options
-echo "--disable-vaapi" >> ffmpeg_options
+echo "--enable-vaapi" >> ffmpeg_options
 echo "--enable-vdpau" >> ffmpeg_options
 echo "--enable-cuda" >> ffmpeg_options
 
@@ -160,7 +160,7 @@ echo "--enable-libmpv-shared" >> mpv_options
 echo "--disable-cplayer" >> mpv_options
 echo "--disable-build-date" >> mpv_options
 echo "--disable-manpage-build" >> mpv_options
-echo "--disable-vaapi" >> mpv_options
+echo "--enable-vaapi" >> mpv_options
 echo "--enable-vdpau" >> mpv_options
 echo "--enable-cuda-hwaccel" >> mpv_options
 echo "--enable-pulse" >> mpv_options
