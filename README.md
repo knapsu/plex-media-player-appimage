@@ -15,6 +15,8 @@ Plex Media Player is the computer desktop client that connects to Plex Media Ser
 
 For more information about Plex please visit https://www.plex.tv/ site.
 
+If having questions or looking for help please visit [Plex Forums](https://forums.plex.tv/).
+
 ## AppImage
 
 AppImages is an universal Linux package format that can be used in any modern Linux distribution.
