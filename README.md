@@ -6,7 +6,7 @@
 
 This repository automates building Linux AppImage packages for Plex Media Player application.
 
-Packages for x64 architecture (64-bit AMD or Intel processors) are built daily and can be downloaded from https://knapsu.eu/plex/.
+Packages can be downloaded from https://knapsu.eu/plex/ site.
 
 ## Plex Media Player
 
@@ -34,10 +34,10 @@ https://github.com/plexinc/plex-media-player
 Docker was used to prepare a fully functional build environment image that contains everything what is needed to compile Plex Media Player. This image is used by continuous integration system (Travis CI) to start the package build process.
 
 Docker images:
-- [knapsu/plexmediaplayer-build](https://hub.docker.com/r/knapsu/plexmediaplayer-build/)
+- [knapsu/plex-media-player-appimage](https://hub.docker.com/r/knapsu/plex-media-player-appimage/)
 
 ## Travis
 
-Travis CI is responsible for doing the actual build. It initializes the build environment, compiles the application, assembles the packages and publishes them. Travis build history is fully transparent and publicly available.
+Travis CI is responsible for doing the actual build. It initializes the build environment, compiles the application, assembles the package and publishes it. Travis build history is fully transparent and publicly available.
 
 https://travis-ci.org/knapsu/plex-media-player-appimage
