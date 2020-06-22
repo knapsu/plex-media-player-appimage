@@ -62,7 +62,7 @@ if [[ -d mpv-build ]]; then
   git clean -xdf
   git fetch -t
   git checkout master
-  git pull
+  git pull --ff-only
   cd ..
 else
   git clone https://github.com/mpv-player/mpv-build.git
@@ -75,7 +75,7 @@ if [[ -d plex-media-player ]]; then
   git clean -xdf
   git fetch -t
   git checkout master
-  git pull
+  git pull --ff-only
   cd ..
 else
   git clone --branch master https://github.com/plexinc/plex-media-player.git
@@ -120,7 +120,7 @@ if [[ -n "${PLEX_TAG}" ]]; then
     VERSION=${VERSION:1}
   fi
 else
-  VERSION="${DATE}_${COMMIT_HASH}"
+  VERSION="${DATE}-${COMMIT_HASH}"
 fi
 
 # Build mpv library
@@ -145,7 +145,10 @@ else
 fi
 
 # FFmpeg build options
-echo "--disable-doc" > ffmpeg_options
+echo "--prefix=/usr" > ffmpeg_options
+echo "--enable-shared" >> ffmpeg_options
+echo "--disable-static" >> ffmpeg_options
+echo "--disable-doc" >> ffmpeg_options
 echo "--disable-programs" >> ffmpeg_options
 echo "--disable-encoders" >> ffmpeg_options
 echo "--disable-muxers" >> ffmpeg_options
@@ -194,8 +197,8 @@ make install DESTDIR=install
 ccache -s
 
 # Prepare AppImage working directory
-mkdir -p "${WORKDIR}/appimage"
-cd "${WORKDIR}/appimage"
+mkdir -p "${WORKDIR}/app"
+cd "${WORKDIR}/app"
 download_appimagetool
 download_linuxdeployqt
 
@@ -205,7 +208,7 @@ mkdir "AppDir"
 APPDIR="${PWD}/AppDir"
 
 # Copy binaries
-cp -pr "${WORKDIR}/plex-media-player/build/install/"* "${APPDIR}"
+cp -prT "${WORKDIR}/plex-media-player/build/install" "${APPDIR}"
 ln -s "../share/plexmediaplayer/web-client" "${APPDIR}/usr/bin/web-client"
 
 # Setup desktop integration (launcher, icon, menu entry)
@@ -220,7 +223,7 @@ get_desktopintegration "${LOWERAPP}" "${SCRIPTDIR}/appimagekit/desktopintegratio
 cd "${OLDPWD}"
 
 # Bundle libraries
-cd "${WORKDIR}/appimage"
+cd "${WORKDIR}/app"
 ./linuxdeployqt "${APPDIR}/usr/bin/plexmediaplayer" -qmldir="../plex-media-player/src/ui" -bundle-non-qt-libs
 ./linuxdeployqt "${APPDIR}/usr/bin/pmphelper" -bundle-non-qt-libs
 
@@ -239,7 +242,7 @@ cd "${OLDPWD}"
 
 # Create AppImage
 APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
-cd "${WORKDIR}/appimage"
+cd "${WORKDIR}/app"
 ./appimagetool -n "${APPDIR}"
 mv "Plex_Media_Player-${TARGET_ARCH}.AppImage" "${WORKDIR}/${APPIMAGE_FILE_NAME}"
 
