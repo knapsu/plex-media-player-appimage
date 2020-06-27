@@ -1,7 +1,8 @@
 .directory
-*.AppImage
 plex-media-player/
 mpv-build/
 app/
 cache/
 keys/id_rsa
+build.log
+*.AppImage

@@ -115,9 +115,11 @@ fi
 # When building from tag use number from its name
 # In all other situations use current date and commit hash
 if [[ -n "${PLEX_TAG}" ]]; then
-  VERSION="${PLEX_TAG}"
-  if [[ "${VERSION}" =~ ^v[0-9]+ ]]; then
-    VERSION=${VERSION:1}
+  if [[ "${PLEX_TAG}" =~ ^v([0-9\.]+)\.([0-9]+)(-(.*))? ]]; then
+    VERSION=${PLEX_TAG:1}
+    BUILD_NUMBER="${BASH_REMATCH[2]}"
+  else
+    VERSION="${PLEX_TAG}"
   fi
 else
   VERSION="${DATE}-${COMMIT_HASH}"
@@ -148,6 +150,8 @@ fi
 echo "--prefix=/usr" > ffmpeg_options
 echo "--enable-shared" >> ffmpeg_options
 echo "--disable-static" >> ffmpeg_options
+echo "--enable-gnutls" >> ffmpeg_options
+echo "--enable-pic" >> ffmpeg_options
 echo "--disable-doc" >> ffmpeg_options
 echo "--disable-programs" >> ffmpeg_options
 echo "--disable-encoders" >> ffmpeg_options
