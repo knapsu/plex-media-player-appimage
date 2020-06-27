@@ -4,5 +4,6 @@ mpv-build/
 app/
 cache/
 keys/id_rsa
+keys/pgp-appimage.asc
 build.log
 *.AppImage

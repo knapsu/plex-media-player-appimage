@@ -174,6 +174,7 @@ echo "--enable-pulse" >> mpv_options
 echo "--enable-alsa" >> mpv_options
 echo "--disable-oss-audio" >> mpv_options
 echo "--disable-tv" >> mpv_options
+echo "--enable-uchardet" >> mpv_options
 
 cd ffnvcodec
 make && make install PREFIX="/usr"
@@ -244,10 +245,14 @@ rm -f usr/lib/libxcb-dri2*
 rm -f usr/lib/libxcb-dri3*
 cd "${OLDPWD}"
 
+echo "Import PGP key for signing"
+gpg --import ${WORKDIR}/keys/pgp-appimage.asc
+
 # Create AppImage
 APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
 cd "${WORKDIR}/app"
-./appimagetool -n "${APPDIR}"
+#./appimagetool --no-appstream "${APPDIR}"
+./appimagetool --no-appstream --sign --sign-key=1D390914CACDBDBB "${APPDIR}"
 mv "Plex_Media_Player-${TARGET_ARCH}.AppImage" "${WORKDIR}/${APPIMAGE_FILE_NAME}"
 
 cd "${WORKDIR}"

@@ -68,6 +68,7 @@ RUN set -e \
     wayland-protocols \
     fuse \
     ccache \
+    gnupg-agent \
   && ln -s /usr/bin/python3 /usr/bin/python \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* /var/tmp/* /var/log/*

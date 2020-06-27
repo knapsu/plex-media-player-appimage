@@ -46,10 +46,5 @@ if [[ "${UPLOAD_SCP}" == "true" ]]; then
   echo "Uploading to SCP server"
   SCP_USER=${SCP_USER:?Missing SCP user variable}
   SCP_SERVER=${SCP_SERVER:?Missing SCP server variable}
-  # Decrypt SSH key on Travis CI
-  if [[ "${TRAVIS}" == "true" ]]; then
-    openssl aes-256-cbc -K $encrypted_0a6514d873f3_key -iv $encrypted_0a6514d873f3_iv -in keys/id_rsa.enc -out keys/id_rsa -d
-    chmod go-rwx keys/id_rsa
-  fi
   scp -i keys/id_rsa *.AppImage ${SCP_USER}@${SCP_SERVER}:${SCP_PATH}
 fi

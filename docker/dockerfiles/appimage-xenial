@@ -68,5 +68,6 @@ RUN set -e \
     wayland-protocols \
     fuse \
     ccache \
+    gnupg-agent \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* /var/tmp/* /var/log/*
