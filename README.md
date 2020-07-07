@@ -1,6 +1,6 @@
 # Plex Media Player - Linux AppImage
 
-[![Build Status](https://travis-ci.org/knapsu/plex-media-player-appimage.svg?branch=master)](https://travis-ci.org/knapsu/plex-media-player-appimage)
+[![Travis Build Status](https://travis-ci.org/knapsu/plex-media-player-appimage.svg?branch=master)](https://travis-ci.org/knapsu/plex-media-player-appimage)
 
 ## Introduction
 
@@ -41,3 +41,13 @@ Docker images:
 Travis CI is responsible for doing the actual build. It initializes the build environment, compiles the application, assembles the package and publishes it. Travis build history is fully transparent and publicly available.
 
 https://travis-ci.org/knapsu/plex-media-player-appimage
+
+## License
+
+This project is released under [GNU General Public License](https://opensource.org/licenses/GPL-3.0).
+
+Please note that Plex Media Player sources are available under its own license.
+
+## Donations
+
+If you like my work and would like me to continue maintaining it please [buy me a pizza](https://www.paypal.me/knapsu).
