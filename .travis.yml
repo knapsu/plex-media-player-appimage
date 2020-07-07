@@ -9,7 +9,7 @@ branches:
     - check
 
 env:
-  - DOCKER_IMAGE=knapsu/plex-media-player-appimage:bionic
+  - DOCKER_IMAGE=knapsu/plex-media-player-appimage:xenial
 
 before_script:
   - docker pull ${DOCKER_IMAGE}

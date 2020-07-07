@@ -19,8 +19,8 @@ git config --global advice.detachedHead false
 APP="Plex Media Player"
 LOWERAPP="plexmediaplayer"
 DATE=$(date -u +'%Y%m%d')
-FFMPEG_VERSION="4.2.3"
-MPV_VERSION="0.32.0"
+FFMPEG_VERSION="4.1.6"
+MPV_VERSION="0.29.1"
 
 case "$(uname -i)" in
   x86_64|amd64)
@@ -48,8 +48,9 @@ case "${ARCH:-$(uname -i)}" in
 esac
 echo "Target architecture: ${PLATFORM}"
 
-# Display Qt version
+# Display tools version
 qmake --version
+cmake --version | head -n 1
 
 # Enable ccache
 export PATH="/usr/lib/ccache:${PATH}"
@@ -85,7 +86,7 @@ fi
 cd plex-media-player
 if [[ -n "${PLEX_TAG}" ]]; then
   echo "Checkout from tag: ${PLEX_TAG}"
-  git checkout ${PLEX_TAG}
+  git checkout "${PLEX_TAG}"
 fi
 COMMIT_HASH=$(git log -n 1 --pretty=format:'%h' --abbrev=8)
 
@@ -140,7 +141,7 @@ if [[ -d ffnvcodec ]]; then
   cd ffnvcodec
   git clean -xdf
   git fetch -t
-  git checkout n9.0.18.3
+  git checkout n8.2.15.10
   cd ..
 else
   git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git ffnvcodec
@@ -246,17 +247,18 @@ rm -f usr/lib/libxcb-dri3*
 cd "${OLDPWD}"
 
 echo "Import PGP key for signing"
-gpg --import ${WORKDIR}/keys/pgp-appimage.asc
+set +e
+gpg --import "${WORKDIR}/keys/pgp-appimage.asc"
+set -e
 
 # Create AppImage
 APPIMAGE_FILE_NAME="Plex_Media_Player_${VERSION}_${PLATFORM}.AppImage"
 cd "${WORKDIR}/app"
-#./appimagetool --no-appstream "${APPDIR}"
 ./appimagetool --no-appstream --sign --sign-key=1D390914CACDBDBB "${APPDIR}"
 mv "Plex_Media_Player-${TARGET_ARCH}.AppImage" "${WORKDIR}/${APPIMAGE_FILE_NAME}"
 
 cd "${WORKDIR}"
-sha1sum ${APPIMAGE_FILE_NAME}
+sha1sum "${APPIMAGE_FILE_NAME}"
 
 # Remember last source code version used by scheduled build
 if [[ "${TRAVIS}" == "true" ]]; then

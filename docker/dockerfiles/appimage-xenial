@@ -16,7 +16,7 @@ RUN set -e \
     curl \
     wget \
   && apt-get install -y software-properties-common \
-  && add-apt-repository -y ppa:beineri/opt-qt-5.12.6-xenial \
+  && add-apt-repository -y ppa:beineri/opt-qt597-xenial \
   && add-apt-repository -y ppa:git-core/ppa \
   && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor - > /etc/apt/trusted.gpg.d/kitware.gpg \
   && add-apt-repository "deb https://apt.kitware.com/ubuntu/ xenial main" \
@@ -52,13 +52,13 @@ RUN set -e \
     libgnutls-dev \
     libgl1-mesa-dev \
     libsdl2-dev \
-    qt512base \
-    qt512quickcontrols \
-    qt512tools \
-    qt512translations \
-    qt512webchannel \
-    qt512webengine \
-    qt512x11extras \
+    qt59base \
+    qt59quickcontrols \
+    qt59tools \
+    qt59translations \
+    qt59webchannel \
+    qt59webengine \
+    qt59x11extras \
     libcec4-dev \
     libjpeg-dev \
     libvulkan-dev \
