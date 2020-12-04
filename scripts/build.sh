@@ -244,6 +244,7 @@ rm -f usr/lib/libnss*
 rm -f usr/lib/libfribidi*
 rm -f usr/lib/libxcb-dri2*
 rm -f usr/lib/libxcb-dri3*
+rm -f usr/lib/libvulkan*
 cd "${OLDPWD}"
 
 echo "Import PGP key for signing"
