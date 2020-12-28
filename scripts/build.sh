@@ -16,7 +16,7 @@ set -e
 git config --global advice.detachedHead false
 
 # Define build variables
-APP="Plex Media Player"
+export APP="Plex Media Player"
 LOWERAPP="plexmediaplayer"
 DATE=$(date -u +'%Y%m%d')
 FFMPEG_VERSION="4.1.6"
@@ -24,10 +24,10 @@ MPV_VERSION="0.29.1"
 
 case "$(uname -i)" in
   x86_64|amd64)
-    SYSTEM_ARCH="x86_64"
+    export SYSTEM_ARCH="x86_64"
     SYSTEM_PLATFORM="x64";;
   i?86)
-    SYSTEM_ARCH="i686"
+    export SYSTEM_ARCH="i686"
     SYSTEM_PLATFORM="x86";;
   *)
     echo "Unsupported system architecture"
@@ -118,7 +118,6 @@ fi
 if [[ -n "${PLEX_TAG}" ]]; then
   if [[ "${PLEX_TAG}" =~ ^v([0-9\.]+)\.([0-9]+)(-(.*))? ]]; then
     VERSION=${PLEX_TAG:1}
-    BUILD_NUMBER="${BASH_REMATCH[2]}"
   else
     VERSION="${PLEX_TAG}"
   fi
