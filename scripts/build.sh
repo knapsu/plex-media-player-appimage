@@ -66,7 +66,7 @@ if [[ -d mpv-build ]]; then
   git pull --ff-only
   cd ..
 else
-  git clone https://github.com/mpv-player/mpv-build.git
+  git clone https://github.com/knapsu/mpv-build.git
 fi
 
 # Checkout Plex Media Player
