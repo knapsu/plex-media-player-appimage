@@ -192,6 +192,7 @@ cmake \
   -DCMAKE_BUILD_TYPE="Release" \
   -DCMAKE_INSTALL_PREFIX="/usr" \
   -DQTROOT="${QTDIR}" \
+  -DLINUX_DBUS=ON \
   ..
 make
 
