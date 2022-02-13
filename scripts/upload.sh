@@ -47,5 +47,5 @@ if [[ "${UPLOAD_SCP}" == "true" ]]; then
   SCP_USER=${SCP_USER:=knapsu}
   SCP_SERVER=${SCP_SERVER:?Missing SCP_SERVER variable}
   SCP_PATH=${SCP_PATH:?Missing SCP_PATH variable}
-  scp -i keys/id_rsa *.AppImage ${SCP_USER}@${SCP_SERVER}:${SCP_PATH}
+  scp *.AppImage ${SCP_USER}@${SCP_SERVER}:${SCP_PATH}
 fi

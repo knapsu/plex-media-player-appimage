@@ -40,4 +40,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
       - name: Upload package
-        run: ./scripts/upload.sh
+        run: ./scripts/upload.sh --scp
