@@ -14,5 +14,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            cache
+          key: cache-${{ hashFiles('./scripts/build.sh') }}
+          restore-keys: cache-
       - name: Run build script
         run: ./scripts/build.sh
