@@ -44,7 +44,8 @@ fi
 
 if [[ "${UPLOAD_SCP}" == "true" ]]; then
   echo "Uploading to SCP server"
-  SCP_USER=${SCP_USER:?Missing SCP user variable}
-  SCP_SERVER=${SCP_SERVER:?Missing SCP server variable}
+  SCP_USER=${SCP_USER:=knapsu}
+  SCP_SERVER=${SCP_SERVER:?Missing SCP_SERVER variable}
+  SCP_PATH=${SCP_PATH:?Missing SCP_PATH variable}
   scp -i keys/id_rsa *.AppImage ${SCP_USER}@${SCP_SERVER}:${SCP_PATH}
 fi

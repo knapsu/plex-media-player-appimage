@@ -23,3 +23,21 @@ jobs:
           restore-keys: cache-
       - name: Run build script
         run: ./scripts/build.sh
+  publish:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      SCP_USER: ${{ secrets.SCP_USER }}
+      SCP_SERVER: ${{ secrets.SCP_SERVER }}
+      SCP_PATH: ${{ secrets.SCP_PATH }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+      - name: Upload package
+        run: ./scripts/upload.sh
