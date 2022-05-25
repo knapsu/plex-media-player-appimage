@@ -1,0 +1,42 @@
+name: Bug Report
+description: Report problems with AppImage package
+body:
+  - type: input
+    attributes:
+      label: Plex version
+      description: |
+        What is your Plex Media Player version?
+        If unsure, check the file name of the AppImage.
+      placeholder: 0.0.0-00000
+  - type: input
+    attributes:
+      label: Linux version
+      description: |
+        What is your Linux distribution name and version?
+        If unsure, run `uname -a` in the terminal.
+      placeholder: "Ubuntu 20.04"
+  - type: textarea
+    attributes:
+      label: How to reproduce
+      description: A step by step instructions how to reproduce the problem. Without the ability to reproduce, fixing the problem might be very difficult.
+      placeholder: |
+        1. Go to `...`
+        2. Click on `...`
+        3. See error
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+  - type: textarea
+    attributes:
+      label: Actual behavior
+      description: A clear description of what actually happens.
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: |
+        Anything else that will give more context about the issue you are encountering?
+        You can attach *screenshots* or *log files* by clicking this area to highlight it and then dragging files in.
+  - type: markdown
+    attributes:
+      value: "**Thank you for completing this form.**"
