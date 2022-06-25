@@ -35,6 +35,14 @@ RUN set -e \
     autoconf \
     automake \
     libtool \
+    qt512base \
+    qt512quickcontrols \
+    qt512tools \
+    qt512translations \
+    qt512wayland \
+    qt512webchannel \
+    qt512webengine \
+    qt512x11extras \
     libharfbuzz-dev \
     libfreetype6-dev \
     libfontconfig1-dev \
@@ -43,29 +51,30 @@ RUN set -e \
     libvdpau-dev \
     libva-dev \
     mesa-common-dev \
+    libgl1-mesa-dev \
     libegl1-mesa-dev \
+    libvulkan-dev \
+    libsdl2-dev \
     libasound2-dev \
     libpulse-dev \
+    libjpeg-dev \
+    libpng-dev \
+    libmp3lame-dev \
+    libtheora-dev \
+    libvorbis-dev \
+    libvpx-dev \
+    libx264-dev \
+    libx265-dev \
     libuchardet-dev \
-    zlib1g-dev \
     libfribidi-dev \
     libgnutls28-dev \
-    libgl1-mesa-dev \
-    libsdl2-dev \
-    qt512base \
-    qt512quickcontrols \
-    qt512tools \
-    qt512translations \
-    qt512webchannel \
-    qt512webengine \
-    qt512x11extras \
+    librubberband-dev \
     libcec4-dev \
-    libjpeg-dev \
-    libvulkan-dev \
     libgbm-dev \
     liblcms2-dev \
-    yasm \
+    zlib1g-dev \
     wayland-protocols \
+    yasm \
     fuse \
     ccache \
     gnupg-agent \

@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -16,11 +16,10 @@ RUN set -e \
     curl \
     wget \
   && apt-get install -y software-properties-common \
-  && add-apt-repository -y ppa:beineri/opt-qt597-xenial \
+  && add-apt-repository -y ppa:beineri/opt-qt-5.15.4-focal \
   && add-apt-repository -y ppa:git-core/ppa \
   && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor - > /etc/apt/trusted.gpg.d/kitware.gpg \
-  && add-apt-repository "deb https://apt.kitware.com/ubuntu/ xenial main" \
-  && add-apt-repository -y ppa:pulse-eight/libcec \
+  && add-apt-repository "deb https://apt.kitware.com/ubuntu/ focal main" \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* /var/tmp/* /var/log/*
 
@@ -35,14 +34,14 @@ RUN set -e \
     autoconf \
     automake \
     libtool \
-    qt59base \
-    qt59quickcontrols \
-    qt59tools \
-    qt59translations \
-    qt59wayland \
-    qt59webchannel \
-    qt59webengine \
-    qt59x11extras \
+    qt515base \
+    qt515quickcontrols \
+    qt515tools \
+    qt515translations \
+    qt515wayland \
+    qt515webchannel \
+    qt515webengine \
+    qt515x11extras \
     libharfbuzz-dev \
     libfreetype6-dev \
     libfontconfig1-dev \
@@ -63,13 +62,14 @@ RUN set -e \
     libtheora-dev \
     libvorbis-dev \
     libvpx-dev \
+#    libaom-dev \
     libx264-dev \
     libx265-dev \
     libuchardet-dev \
     libfribidi-dev \
-    libgnutls-dev \
+    libgnutls28-dev \
     librubberband-dev \
-    libcec4-dev \
+    libcec-dev \
     libgbm-dev \
     liblcms2-dev \
     zlib1g-dev \
@@ -78,5 +78,6 @@ RUN set -e \
     fuse \
     ccache \
     gnupg-agent \
+  && ln -s /usr/bin/python3 /usr/bin/python \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* /var/tmp/* /var/log/*
