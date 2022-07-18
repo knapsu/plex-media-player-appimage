@@ -2,6 +2,9 @@
 
 [![Travis Build Status](https://travis-ci.org/knapsu/plex-media-player-appimage.svg?branch=master)](https://travis-ci.org/knapsu/plex-media-player-appimage)
 
+|⚠️ *Plex Media Player* is discontinued and no longer developed by Plex team. Please use [*Plex for Linux*](https://www.plex.tv/media-server-downloads/#plex-app) app instead. ⚠️|
+| --- |
+
 ## Introduction
 
 This repository automates building Linux AppImage packages for Plex Media Player application.
